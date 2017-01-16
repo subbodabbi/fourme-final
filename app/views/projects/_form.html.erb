@@ -1,0 +1,24 @@
+<%=form_for @projects do |f| %>
+	<div>
+		<%= f.label :title %>
+		<%= f.text_field :title, placeholder: "Subject Title", class: "form-control" %>
+	</div>
+	<br>
+	
+	<div>
+		<%= f.label :description %>
+		<%= f.text_area :description, class: "form-control" %>
+	</div>
+	<br>
+
+	<div>
+		<%= f.label :languages_required %>
+		<%= f.number_field :languages_required, class: "form-control" %>
+	</div>
+	<br>
+
+	<hr>
+	<div>
+		<%= f.submit "Submit", class: "btn btn-primary, col-sm-12" %>
+	</div>
+<% end %>

@@ -1,0 +1,20 @@
+<h1>Email: <%= @user.email %></h1>
+<!-- <h1>Password: <%= @user.password %></h1> -->
+<%= link_to "Edit", edit_user_path(@user) %> 
+
+<h2>Projects</h2>
+<table>
+	<div class="col-md-12">
+		<tr>
+			<th>Project Title</th>
+			<th>Decription</th>
+
+		</tr>
+	</div>
+	<% @projects.each do |project| %>
+		<tr>
+			<td><%= link_to project.title, project.description %></td>
+			<td><%= link_to "Cancel project", project, method: :delete %></td>
+		</tr>
+	<% end %>
+</table>

@@ -10,6 +10,18 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require import_bootstrap
+ *= require css/stylish-portfolio
+1*= require font-awesome
  *= require_tree .
  *= require_self
  */
+
+
+@import "style"
+
+.checkbox1 {
+ 	display: inline-block;
+ 	margin: 10px;
+ 	padding: 10px;
+}

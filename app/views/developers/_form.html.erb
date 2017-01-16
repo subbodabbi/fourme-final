@@ -1,0 +1,53 @@
+<%=form_for developers_path do |f| %>
+	<div>
+		<%= f.label :name %>
+		<%= f.text_field :name, class: "form-control" %>
+	</div>
+	<br>
+
+	<div>
+		<%= f.label :skills %>
+		<%= f.text_field :skills, placeholder: "Ruby, Python, Java Script, Objective C, etc...", class: "form-control" %>
+	</div>
+
+	<div>
+      <%= f.check_box :ruby, class: "checkbox1", bla: "Ruby"%> Ruby
+ 	  <%= f.check_box :Python, class: "checkbox1", bla: "Python"%> Python
+      <%= f.check_box :JavaScript, class: "checkbox1", bla: "JavaScript"%> JavaScript
+      <%= f.check_box :JScript, class: "checkbox1", bla: "JScript"%> JScript
+ 	  <%= f.check_box :C, class: "checkbox1", bla: "C"%> C
+ 	  <%= f.check_box :"C++", class: "checkbox1", bla: "C++"%> C++
+ 	  <%= f.check_box :"C#", class: "checkbox1", bla: "C#"%> C#
+ 	  <%= f.check_box :"Objective-C", class: "checkbox1", bla: "Objective-C"%> Objective-C
+ 	  <%= f.check_box :"Digital Marketing", class: "checkbox1", bla: "Digital Marketing"%> Digital Marketing
+ 	  <%= f.check_box :PHP, class: "checkbox1", bla: "PHP"%> PHP
+	  <%= f.check_box :SQL, class: "checkbox1", bla: "SQL"%> SQL
+ 	  <%= f.check_box :Bash, class: "checkbox1", bla: "Bash"%> Bash
+ 	  <%= f.check_box :Swift, class: "checkbox1", bla: "Swift"%> Swift
+  	</div>
+
+	<br>
+	
+	<div>
+		<%= f.label :description %>
+		<%= f.text_area :description, placeholder: "Port folio", class: "form-control" %>
+	</div>
+	<br>
+
+	<div>
+		<%= f.label :motto %>
+		<%= f.text_field :motto, placeholder: "One word/sentence that describe who you are.", class: "form-control" %>
+	</div>
+	<br>
+
+	<div>
+		<%= f.label :avatar %>
+		<%= f.file_field :avatar, class: "form-control" %>
+	</div>
+	<br>
+
+	<hr>
+    <div>
+ 	  <a href="" class="btn btn-primary, col-sm-12" id="newdevbtn">Submit</a>		
+  	</div>
+<% end %>

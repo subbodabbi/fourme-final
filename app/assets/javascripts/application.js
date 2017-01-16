@@ -14,3 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require bootstrap-sprockets
+//= require jquery.localscroll-1.2.7-min
+//= require jquery.parallax-1.1.3
+//= require jquery.scrollTo-1.4.2-min
+//= require bootstrap.min

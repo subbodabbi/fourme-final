@@ -1,0 +1,232 @@
+<!-- header -->
+<!-- NAV BAR  -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="/Logo/logo1.png"/></a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+<!--         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li> -->
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li> -->
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu" >
+            <% if Developer.find_by(users_id: current_user[:id]) %>
+              <% @a = Developer.find_by(users_id: current_user[:id]) %>
+              <div id="developer_id" style="display: none;"><%=@a.id%></div>
+              <script type="text/javascript"> function modal3(){$('#myModal3').modal('toggle')}</script>
+              <li><a href="javascript:modal3()" id="youprofile">your proffile</a></li>
+            <% else %>
+              <script type="text/javascript"> function modal2(){$('#myModal2').modal('toggle')}</script>
+              <li><a href="javascript:modal2()">place your profile</a></li>
+            <% end %>
+            <li><%= link_to "place your project", sign_out_path%></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to "sign_out", sign_out_path, method: :delete %></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<script type="text/javascript">
+  $('.dropdown-toggle').dropdown();
+</script>
+<!-- end of navbar -->
+
+<!-- MODAL for developer -->
+  <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <%= render partial: '/developers/form' %>
+        <script type="text/javascript">
+ 
+        $('#newdevbtn').click(function(){
+          function data1(){
+            if ($('#_developers_skills').val().length === 0){var arr = []} else {
+              var arr = $('#_developers_skills').val().split(', ');}
+              $('.checkbox1').each(function(elem,elem1){
+                if ($(elem1).prop( "checked" ) === true) {arr.push($(elem1).attr("bla"))}
+            })
+            
+            return arr;
+ 
+        }
+ 
+          $.ajax({
+            method: 'POST',
+              url: '/developers#create',
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {'name': $('#_developers_name').val(), 'skills': data1(), 'description': $('#_developers_description').val(), 'motto': $('#_developers_motto').val(), 'avatar': $('#_developers_avatar').val()}
+          }).done(function(response){
+            a1 = response;
+              if (a1 === 2){alert('you successfully registred')}
+              else {alert("something wrong, try one more time")}
+            })
+         })
+       </script>
+     </div>
+   </div>
+ </div>
+ 
+ <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" id="youprofile1">
+ 
+     
+    <a href="#" id="youprofile_delete">delete</a>
+    <script type="text/javascript">
+      $('#youprofile_delete').click(function(){
+        $.ajax({
+          method: 'delete',
+          url: '/developers/'+$('#developer_id').text(),
+        })
+      })
+      $('#youprofile').click(function(){
+        $('#youprofile_delete').before('<%=@a.name%><a href="" id="editprof1"> edit</a><br>');
+        $('#youprofile_delete').before('<%=@a.skills%><a href="" id="editprof2"> edit</a><br>')
+ 
+      })
+    </script>
+      </div>
+    </div>
+ </div>
+<!-- end of dveloper -->
+
+<header id="top" class="header">
+    <div class="text-vertical-center">
+      <div class="logo">
+        <img src="/Logo/logo.png"/>
+      </div>
+        <%= link_to "Discover New Teams", developers_url, class: "btn btn-dark btn-lg"%>
+        <div class="divider"></div>
+        <%= link_to "Discover New Teams", developers_url, class: "btn btn-dark btn-lg"%>
+        <% if signed_out? %>
+            <!-- Modal -->
+            <div class="modal fade bs-modal-sm" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <br>
+                    <div class="bs-example bs-example-tabs">
+                        <ul id="myTab" class="nav nav-tabs">
+                          <li class="active"><a href="#signin" data-toggle="tab">Sign In</a></li>
+                          <li class=""><a href="#signup" data-toggle="tab">Register</a></li>
+                          <li class=""><a href="#why" data-toggle="tab">Why?</a></li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade in" id="why">
+                        <p>We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
+                        <p><br> Please contact <a mailto:href="4me@example.com"></a>4me@example.com</a> for any other inquiries.</p>
+                    </div>
+                    <div class="tab-pane fade active in" id="signin">
+                      <!-- Sign In Form -->
+                      <!-- Try form_for -->
+        					    <%= form_for :session, url: session_path do |form| %>
+          					    <div class="control-group">
+          					    <label class="control-label" for="Email">Email:</label>
+          							  <div class="controls">
+            						    <%= form.text_field :email, type: 'email', class: "form-control input-medium"%>
+          							  </div>
+                        </div>
+
+    							      <div class="control-group">
+                          <label class="control-label" for="passwordinput">Password:</label>
+                          <div class="controls">
+        						        <%= form.password_field :password, class: "form-control input-medium"%>
+      							      </div>
+    							      </div>
+    							     
+                        <div class="control-group">
+                        <label class="control-label" for="signin"></label>
+                          <div class="controls">
+    							         <%= form.submit "Sign In", class: "btn btn-success"%>
+    							        </div>
+                        </div>  	
+  							      <% end %>
+
+                    </div>
+                        
+                    <div class="tab-pane fade" id="signup">                 
+                        <!-- Sign Up Form -->
+                        <!-- Text input-->
+                        <%= form_for :user, url: users_path do |form| %>
+                        <div class="control-group">
+                          <label class="control-label" for="Email">Email:</label>
+                          <div class="controls">
+                          <%= form.text_field :email, type: 'email', id: "Email", class: "form-control input-large", placeholder: "4me@example.com" %>
+                          </div>
+                        </div>
+                        
+                        <!-- Password input-->
+                        <div class="control-group">
+                          <label class="control-label" for="password">Password:</label>
+                          <div class="controls">
+                          <%= form.password_field :password, id: "password", class: "form-control input-large", placeholder: "********" %>
+                            <em>6-12 Characters</em>
+                          </div>
+                        </div>
+                        
+                        <!-- Button -->
+                        <div class="control-group">
+                          <label class="control-label" for="confirmsignup"></label>
+                          <div class="controls">
+                          <%= form.submit "Sign Up", id: "confirmsignup", class: "btn btn-success"%>
+                           <% end %>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        
+        <script>
+				// Modal Response
+				setTimeout("$('#myModal1').modal({backdrop: 'static', keyboard: false})", 3000);  
+			  </script>
+      <% end %>
+    </div>
+</header>
+
+    <div class="foot">         
+      <div class="foot-content col-lg-10 col-lg-offset-1 text-center">
+        <p><strong></strong></p>
+        <p> Kuala Lumpur, Malaysia
+        <a href="mailto:name@example.com">4me@example.com</a></p>
+        <p>Copyright &copy; Your Website 2017</p>
+      </div>
+    </div>
+
+
+
