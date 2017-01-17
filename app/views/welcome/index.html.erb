@@ -249,6 +249,7 @@
         $('#projlistshow').click(function(event){
           $('#new_proj_div').remove();
           $('#projlist1').remove();
+          $('#new_proj').show();
           $.ajax({
             method: 'get',
             url: '/list',
@@ -257,8 +258,23 @@
             if (a3[0] === "no"){$('#projlist').append('<div id="projlist1">You have no projects</div>')} else{
               $('#projlist').append('<div id="projlist1"></div>')
               for (var x = 0; x<a3.length; x++){
-                $('#projlist1').append('<a href="">'+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
+                $('#projlist1').append('<a href="" bla="'+a3[x].id+'" bla1="'+x+'" class="view_proj">'+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
               }
+              $('.view_proj').click(function(event){
+                event.preventDefault();
+                $('#new_proj').hide();
+                $('#projlist1').remove();
+                $('#projlist').append('<div id="projlist1"></div>');
+                $('#projlist1').append(' Title: '+a3[$(this).attr('bla1')].title+'<a href=""> | edit</a><br>');
+                $('#projlist1').append(' Description: '+a3[$(this).attr('bla1')].description+'<a href=""> | edit</a><br>');
+                $('#projlist1').append('Languages require: <br>');
+                for (var v = 0; v < a3[$(this).attr('bla1')].languages_required.length; v++){$('#projlist1').append(a3[$(this).attr('bla1')].languages_required[v]+'<a href=""> | edit</a><br>');}
+                $('#projlist1').append('<a href="" id="proj_back"> back </a></div>');
+                $('#proj_back').click(function(event){
+                  event.preventDefault();
+                  $('#projlistshow').trigger('click');
+                })
+              });
               $('.delete_proj').click(function(event){
                 event.preventDefault();
                 $.ajax({
@@ -295,7 +311,6 @@
               beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
               data: {'title': $('#new_proj_title').val(), 'description': $('#new_proj_descr').val(), 'languages_required': data2()}
             }).done(function(response){
-              alert(response[0]);
               $('#new_proj').show();
               $('#projlistshow').trigger('click');
             })
