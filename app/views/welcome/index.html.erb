@@ -52,7 +52,8 @@
               <script type="text/javascript"> function modal2(){$('#myModal2').modal('toggle')}</script>
               <li><a href="javascript:modal2()">place your profile</a></li>
             <% end %>
-            <li><%= link_to "place your project", sign_out_path%></li>
+            <script type="text/javascript"> function modal4(){$('#myModal4').modal('toggle')}</script>
+            <li><a href="javascript:modal4()" id="projlistshow">your projects</a></li>
             <li role="separator" class="divider"></li>
             <li><%= link_to "sign_out", sign_out_path, method: :delete %></li>
             <% end%>
@@ -240,6 +241,72 @@
       </div>
     </div>
  </div>
+
+ <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div id="projlist"></div>
+      <a href="" id="new_proj">add new project</a>
+      <script type="text/javascript">
+        $('#projlistshow').click(function(event){
+          $('#new_proj_div').remove();
+          $('#projlist1').remove();
+          $.ajax({
+            method: 'get',
+            url: '/list',
+          }).done(function(response){
+            a3 = response;
+            if (a3[0] === "no"){$('#projlist').append('<div id="projlist1">You have no projects</div>')} else{
+              $('#projlist').append('<div id="projlist1"></div>')
+              for (var x = 0; x<a3.length; x++){
+                $('#projlist1').append('<a href="">'+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
+              }
+              $('.delete_proj').click(function(event){
+                event.preventDefault();
+                $.ajax({
+                  method: 'delete',
+                  url: '/projects/'+$(this).attr('bla')
+                }).done(function(){
+                  $('#projlistshow').trigger('click');
+                });
+              })
+            }
+          })
+        })
+        $('#new_proj').click(function(event){
+          event.preventDefault();
+          $('#new_proj').hide();
+          $('#projlist').after('<div id="new_proj_div"><input type="text" placeholder="title" id="new_proj_title"><br><input type="text" placeholder="description" id="new_proj_descr"><br>Select a languages: <br><input type="checkbox" bla="Ruby" class="checkbox2"> Ruby <input type="checkbox" bla="Python" class="checkbox2"> Python <input type="checkbox" bla="JavaScript" class="checkbox2"> JavaScript <input type="checkbox" bla="JScript" class="checkbox2"> JScript <input type="checkbox" bla="C" class="checkbox2"> C <input type="checkbox" bla="C++" class="checkbox2"> C++ <input type="checkbox" bla="C#" class="checkbox2"> C# <input type="checkbox" bla="Objective-C" class="checkbox2"> Objective-C <input type="checkbox" bla="Digital Marketing" class="checkbox2"> Digital Marketing <input type="checkbox" bla="PHP" class="checkbox2"> PHP <input type="checkbox" bla="SQL" class="checkbox2"> SQL <input type="checkbox" bla="Bash" class="checkbox2"> Bash <input type="checkbox" bla="Swift" class="checkbox2"> Swift<br> If you didn\'t find your\'s just add: <input type="text" placeholder="add you language" id="own_lang"><br> <a href="" id="new_proj_subm"> submit </a><a href="" id="new_proj_back"> | back </a></div>');
+          $('#new_proj_back').click(function(event){
+            event.preventDefault();
+            $('#new_proj_div').remove();
+            $('#new_proj').show();
+          })
+          $('#new_proj_subm').click(function(event){
+            event.preventDefault();
+            function data2(){
+              if ($('#own_lang').val().length === 0) {var arr = [];} else {var arr = $('#own_lang').val().split(', ')} 
+              $('.checkbox2').each(function(elem,elem1){
+                if ($(elem1).prop( "checked" ) === true) {arr.push($(elem1).attr("bla"))}
+              })
+              return arr
+            };
+            $.ajax({
+              method: 'POST',
+              url: '/projects#create',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {'title': $('#new_proj_title').val(), 'description': $('#new_proj_descr').val(), 'languages_required': data2()}
+            }).done(function(response){
+              alert(response[0]);
+              $('#new_proj').show();
+              $('#projlistshow').trigger('click');
+            })
+          });
+        });
+      </script>
+      </div>
+    </div>
+</div>
 <!-- end of dveloper -->
 
 <header id="top" class="header">

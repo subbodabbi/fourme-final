@@ -40,7 +40,7 @@ class DevelopersController < ApplicationController
  
   def destroy
     a = Developer.find_by(users_id: current_user[:id])
-	a.destroy
+    a.destroy
   end
  
   private
