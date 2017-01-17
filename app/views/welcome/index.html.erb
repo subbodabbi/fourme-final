@@ -82,11 +82,8 @@
               $('.checkbox1').each(function(elem,elem1){
                 if ($(elem1).prop( "checked" ) === true) {arr.push($(elem1).attr("bla"))}
             })
-            
             return arr;
- 
-        }
- 
+          }
           $.ajax({
             method: 'POST',
               url: '/developers#create',
@@ -94,7 +91,7 @@
               data: {'name': $('#_developers_name').val(), 'skills': data1(), 'description': $('#_developers_description').val(), 'motto': $('#_developers_motto').val(), 'avatar': $('#_developers_avatar').val()}
           }).done(function(response){
             a1 = response;
-              if (a1 === 2){alert('you successfully registred')}
+              if (a1 === 2){alert("Your account was creted")}
               else {alert("something wrong, try one more time")}
             })
          })
