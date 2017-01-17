@@ -37,6 +37,9 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
+        <% if current_user != nil %>
+          <li><a href="#">Log in as: <%= current_user.email %></a></li>
+        <% end %>
         <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
@@ -47,7 +50,7 @@
               <% @a = Developer.find_by(users_id: current_user[:id]) %>
               <div id="developer_id" style="display: none;"><%=@a.id%></div>
               <script type="text/javascript"> function modal3(){$('#myModal3').modal('toggle')}</script>
-              <li><a href="javascript:modal3()" id="youprofile">your proffile</a></li>
+              <li><a href="javascript:modal3()" id="youprofile">your profile</a></li>
             <% else %>
               <script type="text/javascript"> function modal2(){$('#myModal2').modal('toggle')}</script>
               <li><a href="javascript:modal2()">place your profile</a></li>
@@ -70,7 +73,6 @@
 <!-- MODAL for developer -->
   <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
         <%= render partial: '/developers/form' %>
         <script type="text/javascript">
  
@@ -98,7 +100,6 @@
             })
          })
        </script>
-     </div>
    </div>
  </div>
  
