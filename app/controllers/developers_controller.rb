@@ -13,8 +13,14 @@ class DevelopersController < ApplicationController
 	end
   end
 
-  def update
+  def show
     a = Developer.find_by(users_id: current_user[:id])
+    render :json => a
+  end
+
+  def update
+    Developer.update(params['id'], params.first[0] => params.first[1])
+    render :json => "#{params.first}"
   end
  
   def destroy
