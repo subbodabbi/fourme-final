@@ -1,6 +1,7 @@
 class DevelopersController < ApplicationController
 
   def index
+    @developer = Developer.where.not(users_id: current_user[:id])
   end
 
   def create

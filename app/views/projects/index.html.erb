@@ -1,0 +1,42 @@
+<% i = 1 %>
+<%@project.each do |x| %>
+	
+	<% if i.odd? %>
+		<div class="bla" style="background: url(/1.jpg) 50% 0 repeat fixed;">
+			<div class="story">
+				<div class="float-left">
+					<h1>Title: </h1>
+					<%= x.title%>
+					<br>
+					Languagase: <br>
+					<% x.languages_required.each do |y| %>
+					<%= y%>
+					<br>
+					<%end%>
+					<a href="">Show more</a>
+				</div>
+			</div>
+		</div>
+		<% i+=1 %>
+	<% else %>
+		<div class="bla1" style="background: url(/2.jpg) 50% 0 repeat fixed;">
+			<div class="story">
+				<div class="float-right">
+					<h1>Title: </h1>
+					<%= x.title%>
+					<br>
+					Languagase: <br>
+					<% x.languages_required.each do |y| %>
+					<%= y%>
+					<br>
+					<%end%>
+					<a href="">Show more</a>
+				</div>
+			</div>
+		</div>
+		<% i+=1 %>
+	<% end %>
+<%end%>
+
+
+<%= link_to "main", '/'%>
