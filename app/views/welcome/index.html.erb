@@ -107,8 +107,9 @@
  
      <% if signed_out? %>
           <% else %>
+          <div id="proflist"><h3>Your Profile</h3></div>
           <% if Developer.find_by(users_id: current_user[:id]) %>
-    <a href="#" id="youprofile_delete">delete profile?</a>
+    <a href="#" id="youprofile_delete"><h5>delete profile?</h5></a>
     <script type="text/javascript">
       $('#youprofile_delete').click(function(){
         $.ajax({
@@ -125,13 +126,16 @@
           
           $('.cont').remove();
           $('#youprofile_delete').before('<div class="cont"></div>');
-          $('.cont').append('<div id="contprof1"><strong>Your name:</strong> '+a2.name+' <a href="" id="editprof1"> edit</a></div></tr><br>');
-          $('.cont').append('<strong>Your skills:</strong> <br> '+a2.skills+'<a href=""  id="editprof2"> delete</a><br>');
-          $('.cont').append('<input type="text" placeholder="add skill"><a href=""> add </a><br><br>');
-          $('.cont').append('<div id="contprof2"><strong>Description:</strong> '+a2.description+'<a href="" id="editprof3"> edit</a></div><br>');
-          $('.cont').append('<div id="contprof3"><strong>Your motto:</strong> '+a2.motto+'<a href="" id="editprof4"> edit</a></div><br>');
+          $('.cont').append('<div id="contprof1"><strong>Your name:</strong> '+a2.name+' <a href="" id="editprof1"> -- edit</a></div></tr><br>');
+
+          $('.cont').append('<strong>Your skills: </strong><br> ');
+          for (var i = 0; i<a2.skills.length; i++){
+            $('.cont').append('<div>'+a2.skills[i]+'<a href=""  class="editprof2" id="'+a2.skills[i]+'"> -- delete</a></div>');
+          }
+          $('.cont').append('<input type="text" placeholder="add skill" id="new_skill"><a href="" id="editprof5"> add </a><br><br>');
+          $('.cont').append('<div id="contprof2"><strong>Description:</strong><br> '+a2.description+'<a href="" id="editprof3"> edit</a></div><br>');
+          $('.cont').append('<div id="contprof3"><strong>Your motto:</strong><br> '+a2.motto+'<a href="" id="editprof4"> edit</a></div><br>');
           $('.cont').append('<strong>Your score:</strong> '+a2.score+'<br><br>');
-          
 
           $('#editprof1').click(function(event){
             event.preventDefault();
@@ -242,8 +246,8 @@
  <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-      <div id="projlist"></div>
-      <a href="" id="new_proj">add new project</a>
+      <div id="projlist"><h3>Your Project(s)</h3></div>
+      <a href="" id="new_proj"><br><h5>add new project</h5></a>
       <script type="text/javascript">
         $('#projlistshow').click(function(event){
           $('#new_proj_div').remove();
@@ -253,10 +257,11 @@
             url: '/list',
           }).done(function(response){
             a3 = response;
-            if (a3[0] === "no"){$('#projlist').append('<div id="projlist1">You have no projects</div>')} else{
+            if (a3[0] === "no"){$('#projlist').append('<div id="projlist1"><br>You have no projects</div>')} else{
               $('#projlist').append('<div id="projlist1"></div>')
               for (var x = 0; x<a3.length; x++){
-                $('#projlist1').append('<a href="">'+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
+                
+                $('#projlist1').append('<a href="">'+'- '+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
               }
               $('.delete_proj').click(function(event){
                 event.preventDefault();
