@@ -8,6 +8,10 @@ class ProjectsController < ApplicationController
 		end
 	end
 
+	def index
+    	@project = Project.where.not(user_id: current_user[:id])
+  	end
+
 	def create
 		a = Project.new(user_id: current_user[:id], title: params['title'], description: params['description'], languages_required: params['languages_required'])
 		if a.save

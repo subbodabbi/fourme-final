@@ -83,14 +83,14 @@ h2{
 
 .bla {
 	color: white;
-	height: 700px;
+	height: 500px;
 	margin: 0 auto;
 	padding: 0;
 }
 
 .bla1 {
 	color: white;
-	height: 700px;
+	height: 500px;
 	margin: 0 auto;
 	overflow: hidden;
 	padding: 0;
@@ -107,7 +107,7 @@ h2{
 .story .float-left, .story .float-right{
 	border: 1px solid black;
 	border-radius: 20px;
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0,0,0, 0.8);
 	padding: 100px 0 0 0;
 	position: relative;
 	width: 350px;	
