@@ -19,3 +19,7 @@
 //= require jquery.parallax-1.1.3
 //= require jquery.scrollTo-1.4.2-min
 //= require bootstrap.min
+
+$(document).ready(function(){
+	
+})

@@ -12,6 +12,10 @@ class DevelopersController < ApplicationController
  	  render :json => "1"
 	end
   end
+
+  def update
+    a = Developer.find_by(users_id: current_user[:id])
+  end
  
   def destroy
     a = Developer.find_by(users_id: current_user[:id])
