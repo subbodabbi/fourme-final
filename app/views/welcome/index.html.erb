@@ -108,6 +108,8 @@
  
      <% if signed_out? %>
           <% else %>
+          <% if Developer.find_by(users_id: current_user[:id]) %>
+          
     <a href="#" id="youprofile_delete">delete</a>
     <script type="text/javascript">
       $('#youprofile_delete').click(function(){
@@ -117,58 +119,66 @@
         });
       });
       $('#youprofile').click(function(){
-        $('.cont').remove();
-        $('#youprofile_delete').before('<div class="cont"></div>');
-        $('.cont').append('<div id="contprof1">Your name: <%=@a.name%><a href="" id="editprof1"> edit</a></div>');
-        $('.cont').append('Your skills: <br><% @a.skills.each do |x| %><%=x%><a href="" bla="<%=x%>" id="editprof2"> delete</a><br><%end%>');
-        $('.cont').append('<input type="text" placeholder="add skill"><a href=""> add </a><br>');
-        $('.cont').append('<div id="contprof2">Discription: <%=@a.description%><a href="" id="editprof3"> edit</a></div>');
-        $('.cont').append('<div id="contprof3">Your motto: <%=@a.motto%><a href="" id="editprof4"> edit</a></div>');
-        $('.cont').append('Your score: <%=@a.score%><br>');
-        $('#editprof1').click(function(event){
-          event.preventDefault();
-          $('#contprof1').after('<div id="new_name_div"><input type="text" id ="new_name" placeholder="add new name"><a href="" id="new_name_subm"> submit </a><a href="" id="new_name_back"> | back </a></div>')
-          $('#contprof1').hide();
-          $('#new_name_back').click(function(event){
+        $.ajax({
+          method: 'get',
+          url: '/developers/'+$('#developer_id').text(),
+        }).done(function(response){
+          a2 = response;
+          $('.cont').remove();
+          $('#youprofile_delete').before('<div class="cont"></div>');
+          $('.cont').append('<div id="contprof1">Your name: '+a2.name+' <a href="" id="editprof1"> edit</a></div>');
+          $('.cont').append('Your skills: <br> '+a2.skills+'<a href=""  id="editprof2"> delete</a><br>');
+          $('.cont').append('<input type="text" placeholder="add skill"><a href=""> add </a><br>');
+          $('.cont').append('<div id="contprof2">Discription: '+a2.description+'<a href="" id="editprof3"> edit</a></div>');
+          $('.cont').append('<div id="contprof3">Your motto: '+a2.motto+'<a href="" id="editprof4"> edit</a></div>');
+          $('.cont').append('Your score: '+a2.score+'<br>');
+          $('#editprof1').click(function(event){
             event.preventDefault();
-            $('#new_name_div').remove();
-            $('#contprof1').show();
-          })
-          $('#new_name_subm').click(function(event){
-            event.preventDefault();
-            $.ajax({
-              method: 'POST',
-                url: '/developers#update',
+            $('#contprof1').after('<div id="new_name_div"><input type="text" id ="new_name" placeholder="add new name"><a href="" id="new_name_subm"> submit </a><a href="" id="new_name_back"> | back </a></div>')
+            $('#contprof1').hide();
+            $('#new_name_back').click(function(event){
+             event.preventDefault();
+             $('#new_name_div').remove();
+             $('#contprof1').show();
+            })
+            $('#new_name_subm').click(function(event){
+              event.preventDefault();
+              $.ajax({
+                method: 'patch',
+                url: '/developers/'+$('#developer_id').text(),
                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                 data: {'name': $('#new_name').val()}
               }).done(function(response){
                 a1 = response;
+                console.log(a1);
+              })
             })
-
-          })
-          $('#editprof3').click(function(event){
-            event.preventDefault();
-            $('#contprof2').after('<div id="new_descr_div"><input type="text" id ="new_descr" placeholder="add new description"><a href="" id="new_descr_subm"> submit </a><a href="" id="new_descr_back"> | back </a></div>')
-            $('#contprof2').hide();
-            $('#new_descr_back').click(function(event){
+            $('#editprof3').click(function(event){
               event.preventDefault();
-              $('#new_descr_div').remove();
-              $('#contprof2').show();
+              $('#contprof2').after('<div id="new_descr_div"><input type="text" id ="new_descr" placeholder="add new description"><a href="" id="new_descr_subm"> submit </a><a href="" id="new_descr_back"> | back </a></div>')
+              $('#contprof2').hide();
+              $('#new_descr_back').click(function(event){
+               event.preventDefault();
+                $('#new_descr_div').remove();
+                $('#contprof2').show();
+              })
             })
-          })
-          $('#editprof4').click(function(event){
-            event.preventDefault();
-            $('#contprof3').after('<div id="new_motto_div"><input type="text" id ="new_motto" placeholder="add new motto"><a href="" id="new_motto_subm"> submit </a><a href="" id="new_motto_back"> | back </a></div>')
-            $('#contprof3').hide();
-            $('#new_motto_back').click(function(event){
+            $('#editprof4').click(function(event){
               event.preventDefault();
-              $('#new_motto_div').remove();
-              $('#contprof3').show();
+              $('#contprof3').after('<div id="new_motto_div"><input type="text" id ="new_motto" placeholder="add new motto"><a href="" id="new_motto_subm"> submit </a><a href="" id="new_motto_back"> | back </a></div>')
+              $('#contprof3').hide();
+              $('#new_motto_back').click(function(event){
+                event.preventDefault();
+                $('#new_motto_div').remove();
+                $('#contprof3').show();
+              })
             })
           })
         })
       })
  </script>
+ <%else%>
+ <%end%>
  <%end%>
       </div>
     </div>
