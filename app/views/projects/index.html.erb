@@ -13,7 +13,8 @@
 					<%= y%>
 					<br>
 					<%end%>
-					<a href="">Show more</a>
+					<div class="description" style="display: none;">Description: <br><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+					<a href="" class="show_more_btn">Show more</a>
 				</div>
 			</div>
 		</div>
@@ -30,13 +31,26 @@
 					<%= y%>
 					<br>
 					<%end%>
-					<a href="">Show more</a>
+					<div class="description" style="display: none;"> Description: <br><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+					<a href="" class="show_more_btn">Show more</a>
 				</div>
 			</div>
 		</div>
 		<% i+=1 %>
 	<% end %>
 <%end%>
-
+<script type="text/javascript">
+	$('.show_more_btn').click(function(event){
+		event.preventDefault();
+		$(this).prev().show();
+		$(this).hide();
+	})
+	$('.hide_desrcipt').click(function(event){
+		event.preventDefault();
+		$(this).parent().next().show();
+		$(this).parent().hide();
+	})
+	
+</script>
 
 <%= link_to "main", '/'%>
