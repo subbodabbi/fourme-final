@@ -108,6 +108,7 @@
  
      <% if signed_out? %>
           <% else %>
+          <% if Developer.find_by(users_id: current_user[:id])%>
     <a href="#" id="youprofile_delete">delete</a>
     <script type="text/javascript">
       $('#youprofile_delete').click(function(){
@@ -169,6 +170,8 @@
         })
       })
  </script>
+ <% else%>
+ <%end%>
  <%end%>
       </div>
     </div>
