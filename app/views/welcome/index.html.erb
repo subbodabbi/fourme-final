@@ -108,7 +108,7 @@
      <% if signed_out? %>
           <% else %>
           <% if Developer.find_by(users_id: current_user[:id]) %>
-    <a href="#" id="youprofile_delete">delete</a>
+    <a href="#" id="youprofile_delete">delete profile?</a>
     <script type="text/javascript">
       $('#youprofile_delete').click(function(){
         $.ajax({
@@ -125,13 +125,12 @@
           
           $('.cont').remove();
           $('#youprofile_delete').before('<div class="cont"></div>');
-
-          $('.cont').append('<div id="contprof1"><strong>Your name:</strong> '+a2.name+' <a href="" id="editprof1"> edit</a></div>');
+          $('.cont').append('<div id="contprof1"><strong>Your name:</strong> '+a2.name+' <a href="" id="editprof1"> edit</a></div></tr><br>');
           $('.cont').append('<strong>Your skills:</strong> <br> '+a2.skills+'<a href=""  id="editprof2"> delete</a><br>');
-          $('.cont').append('<input type="text" placeholder="add skill"><a href=""> add </a><br>');
-          $('.cont').append('<div id="contprof2"><strong>Description:</strong> '+a2.description+'<a href="" id="editprof3"> edit</a></div>');
-          $('.cont').append('<div id="contprof3"><strong>Your motto:</strong> '+a2.motto+'<a href="" id="editprof4"> edit</a></div>');
-          $('.cont').append('<strong>Your score:</strong> '+a2.score+'<br>');
+          $('.cont').append('<input type="text" placeholder="add skill"><a href=""> add </a><br><br>');
+          $('.cont').append('<div id="contprof2"><strong>Description:</strong> '+a2.description+'<a href="" id="editprof3"> edit</a></div><br>');
+          $('.cont').append('<div id="contprof3"><strong>Your motto:</strong> '+a2.motto+'<a href="" id="editprof4"> edit</a></div><br>');
+          $('.cont').append('<strong>Your score:</strong> '+a2.score+'<br><br>');
           
 
           $('#editprof1').click(function(event){
