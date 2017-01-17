@@ -251,7 +251,9 @@
       <script type="text/javascript">
         $('#projlistshow').click(function(event){
           $('#new_proj_div').remove();
+          $('#projlist2').remove();
           $('#projlist1').remove();
+          $('#new_proj').show();
           $.ajax({
             method: 'get',
             url: '/list',
@@ -260,9 +262,105 @@
             if (a3[0] === "no"){$('#projlist').append('<div id="projlist1"><br>You have no projects</div>')} else{
               $('#projlist').append('<div id="projlist1"></div>')
               for (var x = 0; x<a3.length; x++){
-                
-                $('#projlist1').append('<a href="">'+'- '+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
+
+                $('#projlist1').append('<a href="" bla1="'+a3[x].id+'" class="view_proj">'+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
+
               }
+              $('.view_proj').click(function(event){
+                event.preventDefault();
+                $.ajax({
+                  method: 'get',
+                  url: '/projshow',
+                  data: {'id': $(this).attr('bla1')}
+                }).done(function(response){
+                  a4 = response;
+                  $('#projlist2').remove();
+                  $('#new_proj').hide();
+                  $('#projlist1').hide();
+                  $('#projlist').append('<div id="projlist2"></div>');
+                  $('#projlist2').append('<div id="proj_title" bla1="'+a4.id+'"> Title: '+a4.title+'<a href="" id="edit_proj"> | edit</a></div>');
+                  $('#projlist2').append('<div id="proj_discr"> Description: '+a4.description+'<a href="" id="edit_proj_discr"> | edit</a></div>');
+                  $('#projlist2').append('Languages require: <br>');
+                  for (var v = 0; v < a4.languages_required.length; v++){$('#projlist2').append(a4.languages_required[v]+'<a href="" class="delete_lang" id="'+a4.languages_required[v]+'"> | delete </a><br>');}
+                  $('#projlist2').append('<input type="text" placeholder="add some languages" id="new_lang"><a href="" id="add_more_lang"> add </a><br>');
+                  $('#projlist2').append('<a href="" id="proj_back"> back </a>');
+                  $('#proj_back').click(function(event){
+                    event.preventDefault();
+                    $('#projlist2').remove();
+                    $('#projlistshow').trigger('click');
+                  })
+                  $('#edit_proj').click(function(event){
+                    event.preventDefault();
+                    $('#proj_title').hide();
+                    $('#proj_title').after('<div id="new_proj_title"><input type="text" id ="new_proj_title1" value="'+a4.title+'"><a href="" id="new_title_subm"> submit </a><a href="" id="new_title_back"> | back</a></div>');
+                    $('#new_title_back').click(function(event){
+                      event.preventDefault();
+                      $('#proj_title').show();
+                      $('#new_proj_title').remove();
+                    });
+                    $('#new_title_subm').click(function(event){
+                      event.preventDefault();
+                      $.ajax({
+                        method: 'patch',
+                        url: '/projects/'+$('#proj_title').attr('bla1'),
+                        data: {'title': $('#new_proj_title1').val()}
+                      }).done(function(){
+                        $('a[bla1 = '+a4.id+']').trigger('click');
+                      })
+                    })
+                  })
+                  $('#edit_proj_discr').click(function(event){
+                    event.preventDefault();
+                    $('#proj_discr').hide();
+                    $('#proj_discr').after('<div id="new_proj_discr"><input type="text" id ="new_proj_discr1" value="'+a4.description+'"><a href="" id="new_descr_subm"> submit </a><a href="" id="new_descr_back"> | back</a></div>');
+                    $('#new_descr_back').click(function(event){
+                      event.preventDefault();
+                      $('#new_proj_discr').remove();
+                      $('#proj_discr').show();
+                    })
+                    $('#new_descr_subm').click(function(event){
+                      event.preventDefault();
+                      $.ajax({
+                        method: 'patch',
+                        url: '/projects/'+$('#proj_title').attr('bla1'),
+                        data: {'description': $('#new_proj_discr1').val()}
+                      }).done(function(){
+                        $('a[bla1 = '+a4.id+']').trigger('click');
+                      })
+                    })
+                  })
+                  $('.delete_lang').click(function(event){
+                    event.preventDefault();
+                    $.ajax({
+                      method: 'patch',
+                      url: '/projects/'+$('#proj_title').attr('bla1'),
+                      data: {'killskill': $(this).attr('id')}
+                    }).done(function(response){
+                      a5 = response
+                      if (a5[0] === "no"){
+                        $('#new_lang').before('<div id="shortmessage2" style="display: none;">You need at least 1 language</div>');
+                        $('#shortmessage2').slideDown();
+                        setTimeout("$('#shortmessage2').slideUp()", 3000); 
+                        setTimeout("$('#shortmessage2').remove()", 4000); 
+                        setTimeout("$('a[bla1 = '+a4.id+']').trigger('click')", 4000)
+                      } 
+                      else {
+                        $('a[bla1 = '+a4.id+']').trigger('click');
+                      }
+                    })
+                  })
+                  $('#add_more_lang').click(function(event){
+                    event.preventDefault();
+                    $.ajax({
+                      method: 'patch',
+                      url: '/projects/'+$('#proj_title').attr('bla1'),
+                      data: {'languages_required': $('#new_lang').val()}
+                    }).done(function(){
+                      $('a[bla1 = '+a4.id+']').trigger('click');
+                    })
+                  })
+                })
+              });
               $('.delete_proj').click(function(event){
                 event.preventDefault();
                 $.ajax({
@@ -299,7 +397,6 @@
               beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
               data: {'title': $('#new_proj_title').val(), 'description': $('#new_proj_descr').val(), 'languages_required': data2()}
             }).done(function(response){
-              alert(response[0]);
               $('#new_proj').show();
               $('#projlistshow').trigger('click');
             })

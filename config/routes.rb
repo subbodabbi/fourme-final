@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :projects
   post "/"    => "users#create"
   get '/list' => "projects#list"
+  get 'projshow' => 'projects#show_proj'
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
