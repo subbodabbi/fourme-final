@@ -108,12 +108,7 @@
  
      <% if signed_out? %>
           <% else %>
-<<<<<<< HEAD
-          <% if Developer.find_by(users_id: current_user[:id])%>
-=======
-        
           <% if Developer.find_by(users_id: current_user[:id]) %>
->>>>>>> f2409e8dbbd19bd9aa96d925a68ca1b64954477c
     <a href="#" id="youprofile_delete">delete</a>
     <script type="text/javascript">
       $('#youprofile_delete').click(function(){
