@@ -19,13 +19,28 @@ class DevelopersController < ApplicationController
   end
 
   def update
-    Developer.update(params['id'], params.first[0] => params.first[1])
-    render :json => "#{params.first}"
+    if params.first[0] == 'skills'
+      a = Developer.find(params['id'])
+      a.skills << params.first[1]
+      a.save
+      render :json => ["ok"]
+    elsif params.first[0] == 'killskill'
+      a = Developer.find(params['id'])
+      a.skills.delete("#{params.first[1]}")
+      if a.save
+        render :json => ["ok"]
+      else
+        render :json => ["no"]
+      end
+    else
+      Developer.update(params['id'], params.first[0] => params.first[1])
+      render :json => ["ok"]
+    end
   end
  
   def destroy
     a = Developer.find_by(users_id: current_user[:id])
-	a.destroy
+    a.destroy
   end
  
   private
