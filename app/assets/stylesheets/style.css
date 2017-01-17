@@ -125,3 +125,11 @@ body{
 }
 
 /* edit profile modal */
+.cont {
+	vertical-align: center;
+	text-align: center;
+}
+
+#youprofile_delete {
+	text-align:center;display:block;
+}
