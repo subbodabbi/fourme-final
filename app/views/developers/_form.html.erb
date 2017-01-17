@@ -1,3 +1,5 @@
+      <div class="modal-body">
+
 <%=form_for developers_path do |f| %>
 	<div>
 		<%= f.label :name %>
@@ -30,13 +32,13 @@
 	
 	<div>
 		<%= f.label :description %>
-		<%= f.text_area :description, placeholder: "Port folio", class: "form-control" %>
+		<%= f.text_area :description, placeholder: "Portfolio", class: "form-control" %>
 	</div>
 	<br>
 
 	<div>
 		<%= f.label :motto %>
-		<%= f.text_field :motto, placeholder: "One word/sentence that describe who you are.", class: "form-control" %>
+		<%= f.text_field :motto, placeholder: "One sentence that describe who you are.", class: "form-control" %>
 	</div>
 	<br>
 
@@ -51,3 +53,4 @@
  	  <a href="" class="btn btn-primary, col-sm-12" id="newdevbtn">Submit</a>		
   	</div>
 <% end %>
+</div>
