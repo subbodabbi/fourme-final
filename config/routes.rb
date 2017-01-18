@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/sign_in" => 'welcome#index', as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   get "/sign_up" => "clearance/users#new", as: "sign_up"
+  post "/developers/:id/show2" => "developers#show2"
   
   
   # The priority is based upon order of creation: first created -> highest priority.

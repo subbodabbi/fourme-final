@@ -1,0 +1,7 @@
+<%=form_for :developer, url: '/developers', method: :patch do |f| %>
+	
+		<%= f.file_field :avatar, class: "form-control" %>
+	
+    	<%= f.submit "Submit", class: "btn btn-primary, col-sm-12" %>
+  	
+<% end %>

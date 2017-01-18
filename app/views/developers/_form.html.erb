@@ -1,6 +1,7 @@
+      
       <div class="modal-body">
 
-<%=form_for developers_path do |f| %>
+<%=form_for :developer, url: '/developers', method: :post do |f| %>
 	<div>
 		<%= f.label :name %>
 		<%= f.text_field :name, class: "form-control" %>
@@ -48,9 +49,12 @@
 	</div>
 	<br>
 
-	<hr>
+	<%= f.hidden_field :users_id, value: current_user[:id] %>
+
+	<br>
     <div>
- 	  <a href="" class="btn btn-primary, col-sm-12" id="newdevbtn">Submit</a>		
+    	<%= f.submit "Submit", class: "btn btn-primary, col-sm-12" %>
+ 	  <!-- <a href="" class="btn btn-primary, col-sm-12" id="newdevbtn">Submit</a>		 -->
   	</div>
 <% end %>
 </div>

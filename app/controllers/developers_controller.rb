@@ -5,18 +5,42 @@ class DevelopersController < ApplicationController
   end
 
   def create
-	a = Developer.new(developer_params)
- 	a.users_id = current_user[:id]
-	if a.save 
-	  render :json => "2"
-	else
- 	  render :json => "1"
-	end
+    
+
+    if params[:developer][:skills].length > 0
+      b = params[:developer][:skills].split(', ')
+    else
+      b = []
+    end
+    {'ruby' => params[:developer][:ruby], 'Python' => params[:developer][:Python], 'JavaScript' => params[:developer][:JavaScript],'JScript' => params[:developer][:JScript], 'C' => params[:developer][:C], "C++" => params[:developer][:"C++"],"C#" =>  params[:developer][:"C#"], "Objective-C" => params[:developer][:"Objective-C"], "Digital Marketing" => params[:developer][:"Digital Marketing"], "PHP" => params[:developer][:PHP], "SQL" => params[:developer][:SQL], "Bash" => params[:developer][:Bash], "Swift" => params[:developer][:Swift]}.each_pair do |key,value|
+      
+      if value == "1" 
+        b << key
+      else
+      end
+    end
+	 a = Developer.new(name: params[:developer][:name], description: params[:developer][:description], motto: params[:developer][:motto], avatar: params[:developer][:avatar], skills: b, users_id: params[:developer][:users_id])
+
+   
+	 if a.save 
+    
+	  redirect_to root_path
+	 else
+    
+ 	  redirect_to root_path
+	 end
   end
 
   def show
     a = Developer.find_by(users_id: current_user[:id])
     render :json => a
+  end
+
+  def show2
+   a = Developer.find(params[:id])
+   a.avatar = params[:developer][:avatar]
+   a.save
+    redirect_to root_path, flash: {notice: "bla"}
   end
 
   def update
@@ -42,12 +66,13 @@ class DevelopersController < ApplicationController
   def destroy
     a = Developer.find_by(users_id: current_user[:id])
     a.destroy
+    redirect_to root_path
   end
  
   private
  
   def developer_params
-    params.permit(:name, :description, :motto, :avatar, skills: [])
+    params.permit(:name, :description, :motto, :avatar, :skills, :ruby, :Python, :JavaScript, :JScript, :C, :"C++", :"C#", :"Objective-C", :"Digital Marketing", :PHP, :SQL, :Bash, :Swift, :users_id)
   end
 
 end
