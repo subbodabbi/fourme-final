@@ -36,8 +36,417 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<!-- NAV BAR  -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img src="/Logo/logo1.png"/></a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+<!--         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li> -->
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li> -->
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_user != nil %>
+          <li><a href="#">Log in as: <%= current_user.email %></a></li>
+        <% end %>
+<!--         <li><a href="#">Link</a></li>
+ -->        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu" >
+          <% if signed_out? %>
+          <% else %>
+            <% if Developer.find_by(users_id: current_user[:id]) %>
+              <% @a = Developer.find_by(users_id: current_user[:id]) %>
+              <div id="developer_id" style="display: none;"><%=@a.id%></div>
+              <script type="text/javascript"> function modal3(){$('#myModal3').modal('toggle')}</script>
+              <li><a href="javascript:modal3()" id="youprofile">your profile</a></li>
+            <% else %>
+              <script type="text/javascript"> function modal2(){$('#myModal2').modal('toggle')}</script>
+              <li><a href="javascript:modal2()">place your profile</a></li>
+            <% end %>
+            <script type="text/javascript"> function modal4(){$('#myModal4').modal('toggle')}</script>
+            <li><a href="javascript:modal4()" id="projlistshow">your projects</a></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to "sign_out", sign_out_path, method: :delete %></li>
+            <% end%>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<script type="text/javascript">
+  $('.dropdown-toggle').dropdown();
+</script>
+<!-- end of navbar -->
 
 <%= yield %>
+
+  <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <%= render partial: '/developers/form' %>
+        <script type="text/javascript">
+ 
+        $('#newdevbtn').click(function(){
+          function data1(){
+            if ($('#_developers_skills').val().length === 0){var arr = []} else {
+              var arr = $('#_developers_skills').val().split(', ');}
+              $('.checkbox1').each(function(elem,elem1){
+                if ($(elem1).prop( "checked" ) === true) {arr.push($(elem1).attr("bla"))}
+            })
+            return arr;
+          }
+          $.ajax({
+            method: 'POST',
+              url: '/developers#create',
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {'name': $('#_developers_name').val(), 'skills': data1(), 'description': $('#_developers_description').val(), 'motto': $('#_developers_motto').val(), 'avatar': $('#_developers_avatar').val()}
+          }).done(function(response){
+            a1 = response;
+              if (a1 === 2){alert("Your account was created")}
+              else {alert("something wrong, try one more time")}
+            })
+         })
+       </script>
+   </div>
+ </div>
+
+
+ <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" id="youprofile1">
+ 
+     <% if signed_out? %>
+          <% else %>
+          <div id="proflist"><h3>Your Profile</h3></div>
+          <% if Developer.find_by(users_id: current_user[:id]) %>
+    <a href="#" id="youprofile_delete"><h5>delete profile?</h5></a>
+    <script type="text/javascript">
+      $('#youprofile_delete').click(function(){
+        $.ajax({
+          method: 'delete',
+          url: '/developers/'+$('#developer_id').text(),
+        });
+      });
+      $('#youprofile').click(function(){
+        $.ajax({
+          method: 'get',
+          url: '/developers/'+$('#developer_id').text(),
+        }).done(function(response){
+          a2 = response;
+          
+          $('.cont').remove();
+          $('#youprofile_delete').before('<div class="cont"></div>');
+          $('.cont').append('<div id="contprof1"><strong>Your name:</strong> '+a2.name+' <a href="" id="editprof1"> -- edit</a></div></tr><br>');
+
+          $('.cont').append('<strong>Your skills: </strong><br> ');
+          for (var i = 0; i<a2.skills.length; i++){
+            $('.cont').append('<div>'+a2.skills[i]+'<a href=""  class="editprof2" id="'+a2.skills[i]+'"> -- delete</a></div>');
+          }
+          $('.cont').append('<input type="text" placeholder="add skill" id="new_skill"><a href="" id="editprof5"> add </a><br><br>');
+          $('.cont').append('<div id="contprof2"><strong>Description:</strong><br> '+a2.description+'<a href="" id="editprof3"> edit</a></div><br>');
+          $('.cont').append('<div id="contprof3"><strong>Your motto:</strong><br> '+a2.motto+'<a href="" id="editprof4"> edit</a></div><br>');
+          $('.cont').append('<strong>Your score:</strong> '+a2.score+'<br><br>');
+
+          $('#editprof1').click(function(event){
+            event.preventDefault();
+            $('#contprof1').after('<div id="new_name_div"><input type="text" id ="new_name" value="'+a2.name+'"><a href="" id="new_name_subm"> submit </a><a href="" id="new_name_back"> | back </a></div>');
+            $('#contprof1').hide();
+            $('#new_name_back').click(function(event){
+              event.preventDefault();
+              $('#new_name_div').remove();
+              $('#contprof1').show();
+            });
+            $('#new_name_subm').click(function(event){
+              event.preventDefault();
+              $.ajax({
+                method: 'patch',
+                url: '/developers/'+$('#developer_id').text(),
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                data: {'name': $('#new_name').val()}
+              }).done(function(){
+                $('#youprofile').trigger('click');
+              });
+            });
+          });
+          $('.editprof2').click(function(event){
+            event.preventDefault();
+            $.ajax({
+              method: 'patch',
+              url: '/developers/'+$('#developer_id').text(),
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {'killskill': $(this).attr('id')}
+            }).done(function(response){
+              a1 = response
+              if (a1[0] === "no"){
+                $('#new_skill').before('<div id="shortmessage1" style="display: none;">You need at least 1 skill</div>');
+                $('#shortmessage1').slideDown();
+                setTimeout("$('#shortmessage1').slideUp()", 3000); 
+                setTimeout("$('#shortmessage1').remove()", 4000); 
+                setTimeout("$('#youprofile').trigger('click')", 4000)
+              } 
+              else {
+                $('#youprofile').trigger('click');  
+              }
+            })
+          })
+          $('#editprof5').click(function(event){
+            event.preventDefault();
+            $.ajax({
+              method: 'patch',
+              url: '/developers/'+$('#developer_id').text(),
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {'skills': $('#new_skill').val()}
+            }).done(function(){
+              $('#youprofile').trigger('click');  
+            })
+          })
+          $('#editprof3').click(function(event){
+            event.preventDefault();
+            $('#contprof2').after('<div id="new_descr_div"><input type="text" id ="new_descr" value="'+a2.description+'"><a href="" id="new_descr_subm"> submit </a><a href="" id="new_descr_back"> | back </a></div>')
+            $('#contprof2').hide();
+            $('#new_descr_back').click(function(event){
+              event.preventDefault();
+              $('#new_descr_div').remove();
+              $('#contprof2').show();
+            })
+            $('#new_descr_subm').click(function(event){
+              event.preventDefault();
+              $.ajax({
+                method: 'patch',
+                url: '/developers/'+$('#developer_id').text(),
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                data: {'description': $('#new_descr').val()}
+              }).done(function(){
+                $('#youprofile').trigger('click');  
+              })
+            })
+          })
+          $('#editprof4').click(function(event){
+            event.preventDefault();
+            $('#contprof3').after('<div id="new_motto_div"><input type="text" id ="new_motto" value="'+a2.motto+'"><a href="" id="new_motto_subm"> submit </a><a href="" id="new_motto_back"> | back </a></div>')
+            $('#contprof3').hide();
+            $('#new_motto_back').click(function(event){
+              event.preventDefault();
+              $('#new_motto_div').remove();
+              $('#contprof3').show();
+            })
+            $('#new_motto_subm').click(function(event){
+              event.preventDefault();
+              $.ajax({
+                method: 'patch',
+                url: '/developers/'+$('#developer_id').text(),
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                data: {'motto': $('#new_motto').val()}
+              }).done(function(){
+                $('#youprofile').trigger('click');  
+              })
+            })
+          })
+        })
+      })
+    
+ </script>
+ <%else%>
+ <%end%>
+ <%end%>
+      </div>
+    </div>
+ </div>
+
+ <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div id="projlist"><h3>Your Project</h3></div>
+      <a href="" id="new_proj"><br><h5>add new project</h5></a>
+      <script type="text/javascript">
+        $('#projlistshow').click(function(event){
+          $('#new_proj_div').remove();
+          $('#projlist2').remove();
+          $('#projlist1').remove();
+          $('#new_proj').show();
+          $.ajax({
+            method: 'get',
+            url: '/list',
+          }).done(function(response){
+            a3 = response;
+            if (a3[0] === "no"){$('#projlist').append('<div id="projlist1"><br>You have no projects</div>')} else{
+              $('#projlist').append('<div id="projlist1"></div>')
+              for (var x = 0; x<a3.length; x++){
+
+                $('#projlist1').append('<a href="" bla1="'+a3[x].id+'" class="view_proj">'+a3[x].title+'</a><a href="" class="delete_proj" bla="'+a3[x].id+'"> | delete</a><br>');
+
+              }
+              $('.view_proj').click(function(event){
+                event.preventDefault();
+                $.ajax({
+                  method: 'get',
+                  url: '/projshow',
+                  data: {'id': $(this).attr('bla1')}
+                }).done(function(response){
+                  a4 = response;
+                  $('#projlist2').remove();
+                  $('#new_proj').hide();
+                  $('#projlist1').hide();
+                  $('#projlist').append('<div id="projlist2"></div>');
+                  $('#projlist2').append('<div id="proj_title" bla1="'+a4.id+'"> <strong>Title:</strong><br> '+a4.title+'<a href="" id="edit_proj"> | edit</a></div><br>');
+                  $('#projlist2').append('<div id="proj_discr"> <strong>Description:</strong><br> '+a4.description+'<a href="" id="edit_proj_discr"> | edit</a></div><br>');
+                  $('#projlist2').append('<strong>Languages require:</strong> <br>');
+                  
+                  for (var v = 0; v < a4.languages_required.length; v++){$('#projlist2').append(a4.languages_required[v]+'<a href="" class="delete_lang" id="'+a4.languages_required[v]+'"> | delete </a><br>');}
+
+                  $('#projlist2').append('<input type="text" placeholder="add some languages" id="new_lang"><a href="" id="add_more_lang"> add </a><br><br>');
+                  $('#projlist2').append('<a href="" id="proj_back"> back </a>');
+                  $('#proj_back').click(function(event){
+                    event.preventDefault();
+                    $('#projlist2').remove();
+                    $('#projlistshow').trigger('click');
+                  })
+                  $('#edit_proj').click(function(event){
+                    event.preventDefault();
+                    $('#proj_title').hide();
+                    $('#proj_title').after('<div id="new_proj_title"><input type="text" id ="new_proj_title1" value="'+a4.title+'"><a href="" id="new_title_subm"> submit </a><a href="" id="new_title_back"> | back</a></div>');
+                    $('#new_title_back').click(function(event){
+                      event.preventDefault();
+                      $('#proj_title').show();
+                      $('#new_proj_title').remove();
+                    });
+                    $('#new_title_subm').click(function(event){
+                      event.preventDefault();
+                      $.ajax({
+                        method: 'patch',
+                        url: '/projects/'+$('#proj_title').attr('bla1'),
+                        data: {'title': $('#new_proj_title1').val()}
+                      }).done(function(){
+                        $('a[bla1 = '+a4.id+']').trigger('click');
+                      })
+                    })
+                  })
+                  $('#edit_proj_discr').click(function(event){
+                    event.preventDefault();
+                    $('#proj_discr').hide();
+                    $('#proj_discr').after('<div id="new_proj_discr"><input type="text" id ="new_proj_discr1" value="'+a4.description+'"><a href="" id="new_descr_subm"> submit </a><a href="" id="new_descr_back"> | back</a></div>');
+                    $('#new_descr_back').click(function(event){
+                      event.preventDefault();
+                      $('#new_proj_discr').remove();
+                      $('#proj_discr').show();
+                    })
+                    $('#new_descr_subm').click(function(event){
+                      event.preventDefault();
+                      $.ajax({
+                        method: 'patch',
+                        url: '/projects/'+$('#proj_title').attr('bla1'),
+                        data: {'description': $('#new_proj_discr1').val()}
+                      }).done(function(){
+                        $('a[bla1 = '+a4.id+']').trigger('click');
+                      })
+                    })
+                  })
+                  $('.delete_lang').click(function(event){
+                    event.preventDefault();
+                    $.ajax({
+                      method: 'patch',
+                      url: '/projects/'+$('#proj_title').attr('bla1'),
+                      data: {'killskill': $(this).attr('id')}
+                    }).done(function(response){
+                      a5 = response
+                      if (a5[0] === "no"){
+                        $('#new_lang').before('<div id="shortmessage2" style="display: none;">You need at least 1 language</div>');
+                        $('#shortmessage2').slideDown();
+                        setTimeout("$('#shortmessage2').slideUp()", 3000); 
+                        setTimeout("$('#shortmessage2').remove()", 4000); 
+                        setTimeout("$('a[bla1 = '+a4.id+']').trigger('click')", 4000)
+                      } 
+                      else {
+                        $('a[bla1 = '+a4.id+']').trigger('click');
+                      }
+                    })
+                  })
+                  $('#add_more_lang').click(function(event){
+                    event.preventDefault();
+                    $.ajax({
+                      method: 'patch',
+                      url: '/projects/'+$('#proj_title').attr('bla1'),
+                      data: {'languages_required': $('#new_lang').val()}
+                    }).done(function(){
+                      $('a[bla1 = '+a4.id+']').trigger('click');
+                    })
+                  })
+                })
+              });
+              $('.delete_proj').click(function(event){
+                event.preventDefault();
+                $.ajax({
+                  method: 'delete',
+                  url: '/projects/'+$(this).attr('bla')
+                }).done(function(){
+                  $('#projlistshow').trigger('click');
+                });
+              })
+            }
+          })
+        })
+        $('#new_proj').click(function(event){
+          event.preventDefault();
+          $('#new_proj').hide();
+          $('#projlist').after('<div id="new_proj_div"><h3>Add new project</h3><input type="text" placeholder="title" id="new_proj_title"><br><input type="text" placeholder="description" id="new_proj_descr"><br><br>Select a languages: <br><input type="checkbox" bla="Ruby" class="checkbox2"> Ruby <input type="checkbox" bla="Python" class="checkbox2"> Python <input type="checkbox" bla="JavaScript" class="checkbox2"> JavaScript <input type="checkbox" bla="JScript" class="checkbox2"> JScript <input type="checkbox" bla="C" class="checkbox2"> C <input type="checkbox" bla="C++" class="checkbox2"> C++ <input type="checkbox" bla="C#" class="checkbox2"> C# <input type="checkbox" bla="Objective-C" class="checkbox2"> Objective-C <input type="checkbox" bla="Digital Marketing" class="checkbox2"> Digital Marketing <input type="checkbox" bla="PHP" class="checkbox2"> PHP <input type="checkbox" bla="SQL" class="checkbox2"> SQL <input type="checkbox" bla="Bash" class="checkbox2"> Bash <input type="checkbox" bla="Swift" class="checkbox2"> Swift<br> If you don\'t find language you want here, just add: <input type="text" placeholder="add your language" id="own_lang"><br><br> <a href="" id="new_proj_subm"> submit </a><a href="" id="new_proj_back"> | back </a></div>');
+          $('#new_proj_back').click(function(event){
+            event.preventDefault();
+            $('#new_proj_div').remove();
+            $('#new_proj').show();
+          })
+          $('#new_proj_subm').click(function(event){
+            event.preventDefault();
+            function data2(){
+              if ($('#own_lang').val().length === 0) {var arr = [];} else {var arr = $('#own_lang').val().split(', ')} 
+              $('.checkbox2').each(function(elem,elem1){
+                if ($(elem1).prop( "checked" ) === true) {arr.push($(elem1).attr("bla"))}
+              })
+              return arr
+            };
+            $.ajax({
+              method: 'POST',
+              url: '/projects#create',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {'title': $('#new_proj_title').val(), 'description': $('#new_proj_descr').val(), 'languages_required': data2()}
+            }).done(function(response){
+              $('#new_proj').show();
+              $('#projlistshow').trigger('click');
+            })
+          });
+        });
+      </script>
+      </div>
+    </div>
+</div>
 
 </body>
 </html>

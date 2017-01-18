@@ -5,6 +5,8 @@ class Developer < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader  
   
+  acts_as_votable
+
   validates :name, presence: true 
   validates :skills, presence: true
   validates :motto, presence: true    

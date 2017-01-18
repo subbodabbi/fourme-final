@@ -53,12 +53,16 @@ h2{
 
 .float-left{
 	float: left;	
-	margin: 0 0 0 20px;
+	/*margin: 2px 0 0 20px;*/
+	position: fixed;
+	z-index: 2;
 }
 
 .float-right{
 	float: right;
-	margin: 0 20px 0 0;
+	position: fixed;
+	z-index: 2;
+	/*margin: 2px 20px 0 0;*/
 }
 
 .center{
@@ -92,7 +96,6 @@ h2{
 	color: white;
 	height: 500px;
 	margin: 0 auto;
-	overflow: hidden;
 	padding: 0;
 }
 
@@ -108,9 +111,13 @@ h2{
 	border: 1px solid black;
 	border-radius: 20px;
 	background-color: rgba(0,0,0, 0.8);
-	padding: 100px 0 0 0;
+	padding: 40px 25px 15px 25px;
 	position: relative;
-	width: 350px;	
+	width: 450px;		
+}
+
+.show_more_btn {
+	vertical-align: middle;
 }
 
 .logo {
@@ -125,6 +132,32 @@ body{
 }
 
 /* edit profile modal */
+.modal {
+  text-align: center;
+  
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  background-color: white;
+  opacity: 0.9;
+  border-radius: 20px;
+  padding: 5px;
+  
+}
+
 .cont {
 	vertical-align: center;
 	text-align: center;
@@ -142,8 +175,26 @@ body{
 #projlist {
 	vertical-align: center;
 	text-align: center;
+	padding: 30px;
+}
+
+#new_proj_div {
+	vertical-align: center;
+	text-align: center;
 }
 
 #new_proj {
 	text-align:center;display:block;
 }
+
+#new_proj_title {
+	min-width: 60%;
+}
+#new_proj_descr {
+	height: 100px;
+	min-width: 60%;
+}
+
+
+
+
