@@ -54,10 +54,14 @@ h2{
 .float-left{
 	float: left;	
 	/*margin: 2px 0 0 20px;*/
+	position: fixed;
+	z-index: 2;
 }
 
 .float-right{
 	float: right;
+	position: fixed;
+	z-index: 2;
 	/*margin: 2px 20px 0 0;*/
 }
 
@@ -92,7 +96,6 @@ h2{
 	color: white;
 	height: 500px;
 	margin: 0 auto;
-	overflow: hidden;
 	padding: 0;
 }
 
@@ -110,7 +113,7 @@ h2{
 	background-color: rgba(0,0,0, 0.8);
 	padding: 40px 25px 15px 25px;
 	position: relative;
-	width: 450px;	
+	width: 450px;		
 }
 
 .show_more_btn {
@@ -183,3 +186,7 @@ body{
 #new_proj {
 	text-align:center;display:block;
 }
+
+
+
+

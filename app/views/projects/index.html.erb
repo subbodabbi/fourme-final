@@ -1,44 +1,57 @@
 <% i = 1 %>
-<%@project.each do |x| %>
-	
-	<% if i.odd? %>
-		<div class="bla" style="background: url(/1.jpg) 50% 0 repeat fixed;">
-			<div class="story">
-				<div class="float-left">
-					<h1><%= x.title%></h1>
-					<br>
-					<h5>Languages: </h5>
-					<% x.languages_required.each do |y| %>
-					<%= y%>
-					<br>
-					<%end%>
-					<br>
-					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
-					<a href="" class="show_more_btn">Show more >></a>
+<% a = 0 %>
+
+<%@project.each_with_index do |x, indx| %>
+	<% if a == 0 %>
+		<% if indx.even? %>
+			<div class="bla" style="background: url(/1.jpg) 50% 0 repeat fixed;">
+				<div class="story">
+					<div class="float-left">
+						<h1><%= x.title%></h1>
+						<br>
+						<h5>Languages: </h5>
+						<% x.languages_required.each do |y| %>
+						<%= y%>
+						<br>
+						<%end%>
+						<br>
+						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+						<a href="" class="show_more_btn">Show more >></a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<% i+=1 %>
-	<% else %>
-		<div class="bla1" style="background: url(/2.jpg) 50% 0 repeat fixed;">
-			<div class="story">
-				<div class="float-right">
-					<h1><%= x.title%></h1>
-					<br>
-					<h5>Languages: </h5>
-					<% x.languages_required.each do |y| %>
-					<%= y%>
-					<br>
-					<%end%>
-					<br>
-					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
-					<a href="" class="show_more_btn">Show more >></a>
+			<% indx+=1 %>
+			<% if indx == @project.size %>
+				<div class="bla" style="background: url(/1.jpg) 50% 0 repeat;">
+			<% end %>
+		<% else %>
+			<div class="bla1" style="background: url(/2.jpg) 50% 0 repeat fixed;">
+				<div class="story">
+					<div class="float-right">
+						<h1><%= x.title%></h1>
+						<br>
+						<h5>Languages: </h5>
+						<% x.languages_required.each do |y| %>
+						<%= y%>
+						<br>
+						<%end%>
+						<br>
+						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+						<a href="" class="show_more_btn">Show more >></a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<% i+=1 %>
-	<% end %>
-<%end%>
+			<% indx+=1 %>
+			<% if indx == @project.size %>
+				<div class="bla" style="background: url(/1.jpg) 50% 0 repeat;">
+			<% end %>
+				
+		<% end %>		
+	<% end %>	
+<% end %>
+
+
+
 <script type="text/javascript">
 	$('.show_more_btn').click(function(event){
 		event.preventDefault();
@@ -53,4 +66,3 @@
 	
 </script>
 
-<%= link_to "main", '/'%>
