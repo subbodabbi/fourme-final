@@ -13,8 +13,21 @@
 					<br>
 					<%end%>
 					<br>
-					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
-					<a href="" class="show_more_btn">Show more >></a>
+					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						<%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
+	     				<button type="button" class="btn btn-info" aria-label="Left Align">
+	       				<span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
+	       				<span class="badge"><%= x.get_upvotes.size %></span>
+	     				</button>
+	     			<% end %> 
+						<%= link_to dislike_project_path(x), class: "downvote", method: 'get', remote: true do %>
+	     				<button type="button" class="btn btn-info" aria-label="Left Align">
+								<span class="glyphicon glyphicon-thumbs-down glyphicon-align-center" aria-hidden="true"></span>
+								<span class="badge"><%= x.get_downvotes.size %></span>
+							</button>
+	   				<% end %>
+	     		</div>
+					<a href="" class="show_more_btn">Show more>></a>
 				</div>
 			</div>
 		</div>
@@ -31,25 +44,26 @@
 					<br>
 					<%end%>
 					<br>
-					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						<%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
+	     				<button type="button" class="btn btn-info" aria-label="Left Align">
+	       				<span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
+	       				<span class="upbadge"><%= x.get_upvotes.size %></span>
+	     				</button>
+	     			<% end %>  
+						<%= link_to dislike_project_path(x), class: "downvote", method: 'get', remote: true do %>
+	     				<button type="button" class="btn btn-info" aria-label="Left Align">
+								<span class="glyphicon glyphicon-thumbs-down glyphicon-align-center" aria-hidden="true"></span>
+								<span class="badge"><%= x.get_downvotes.size %></span>
+							</button>
+	   				<% end %>
+					</div>
 					<a href="" class="show_more_btn">Show more >></a>
 				</div>
 			</div>
 		</div>
 		<% i+=1 %>
 	<% end %>
-
-<div>
-  <div class="vote_count">
-    <%= x.score %>
-  </div>   
-  <div class="votes">  
-    <%= link_to "upvote", like_project_path(x), method: :get, remote: true, class: 'upvote' %>
-    <%= link_to "downvote", dislike_project_path(x), method: :get, remote: true, class: 'downvote' %>
-  </div>
-</div>
-
-
 <%end%>
 
 <script type="text/javascript">
@@ -65,5 +79,4 @@
 	})
 	
 </script>
-
 <%= link_to "main", '/'%>
