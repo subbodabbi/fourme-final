@@ -1,0 +1,12 @@
+<%=form_for proposal_path do |f| %>
+	<div>
+		<%= f.label :proposal %>
+		<%= f.text_area :proposal, placeholder: "Write your proposal", class: "form-control" %>
+	</div>
+	<br>
+
+	<hr>
+	<div>
+		<%= f.submit "Submit", class: "btn btn-primary, col-sm-12" %>
+	</div>
+<% end %>
