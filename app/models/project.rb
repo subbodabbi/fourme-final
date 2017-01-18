@@ -8,4 +8,8 @@ class Project < ActiveRecord::Base
   validates :title, presence: true
   validates :languages_required, presence: true
 
+  def score
+    self.get_upvotes.size - self.get_downvotes.size
+  end
+
 end
