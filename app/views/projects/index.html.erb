@@ -5,16 +5,16 @@
 		<div class="bla" style="background: url(/1.jpg) 50% 0 repeat fixed;">
 			<div class="story">
 				<div class="float-left">
-					<h1>Title: </h1>
-					<%= x.title%>
+					<h1><%= x.title%></h1>
 					<br>
-					Languagase: <br>
+					<h5>Languages: </h5>
 					<% x.languages_required.each do |y| %>
 					<%= y%>
 					<br>
 					<%end%>
-					<div class="description" style="display: none;">Description: <br><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
-					<a href="" class="show_more_btn">Show more</a>
+					<br>
+					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+					<a href="" class="show_more_btn">Show more >></a>
 				</div>
 			</div>
 		</div>
@@ -23,16 +23,16 @@
 		<div class="bla1" style="background: url(/2.jpg) 50% 0 repeat fixed;">
 			<div class="story">
 				<div class="float-right">
-					<h1>Title: </h1>
-					<%= x.title%>
+					<h1><%= x.title%></h1>
 					<br>
-					Languagase: <br>
+					<h5>Languages: </h5>
 					<% x.languages_required.each do |y| %>
 					<%= y%>
 					<br>
 					<%end%>
-					<div class="description" style="display: none;"> Description: <br><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
-					<a href="" class="show_more_btn">Show more</a>
+					<br>
+					<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a></div>
+					<a href="" class="show_more_btn">Show more >></a>
 				</div>
 			</div>
 		</div>
