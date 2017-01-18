@@ -16,7 +16,12 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  
+  resources :projects do
+    member do
+      put "like", to: "projects#upvote"
+      put "dislike", to: "projects#downvote"
+    end
+  end
   
   root 'welcome#index'
   resources :developers

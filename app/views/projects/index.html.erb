@@ -38,7 +38,14 @@
 		</div>
 		<% i+=1 %>
 	<% end %>
+
+<%= link_to "upvote", like_project_path(x), method: :put %>
+<%= link_to "downvote", dislike_project_path(x), method: :put %>
+<%= x.score %>
+
+
 <%end%>
+
 <script type="text/javascript">
 	$('.show_more_btn').click(function(event){
 		event.preventDefault();
