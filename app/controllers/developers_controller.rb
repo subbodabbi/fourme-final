@@ -19,7 +19,7 @@ class DevelopersController < ApplicationController
       else
       end
     end
-	 a = Developer.new(name: params[:developer][:name], description: params[:developer][:description], motto: params[:developer][:motto], avatar: params[:developer][:avatar], skills: b, users_id: params[:developer][:users_id])
+	 a = Developer.new(name: params[:developer][:name], description: params[:developer][:description], motto: params[:developer][:motto], avatar: params[:developer][:avatar], skills: b, users_id: current_user[:id])
 
    
 	 if a.save 
@@ -72,7 +72,7 @@ class DevelopersController < ApplicationController
   private
  
   def developer_params
-    params.permit(:name, :description, :motto, :avatar, :skills, :ruby, :Python, :JavaScript, :JScript, :C, :"C++", :"C#", :"Objective-C", :"Digital Marketing", :PHP, :SQL, :Bash, :Swift, :users_id)
+    params.permit(:name, :description, :motto, :avatar, :skills, :ruby, :Python, :JavaScript, :JScript, :C, :"C++", :"C#", :"Objective-C", :"Digital Marketing", :PHP, :SQL, :Bash, :Swift)
   end
 
 end
