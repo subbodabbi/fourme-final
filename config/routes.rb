@@ -18,8 +18,8 @@ Rails.application.routes.draw do
 
   resources :projects do
     member do
-      put "like", to: "projects#upvote"
-      put "dislike", to: "projects#downvote"
+      get "like", to: "projects#upvote"
+      get "dislike", to: "projects#downvote"
     end
   end
   

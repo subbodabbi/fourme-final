@@ -54,13 +54,19 @@ class ProjectsController < ApplicationController
 	def upvote
 		@project = Project.find(params[:id])
 		@project.upvote_by current_user
-		redirect_to projects_path
+		respond_to do |format|
+		  format.html {redirect_to projects_path}
+		  format.js { render layout: false}
+		end
 	end
 	
 	def downvote
 		@project = Project.find(params[:id])
 		@project.downvote_by current_user
-		redirect_to projects_path
+		respond_to do |format|
+		  format.html {redirect_to projects_path}
+		  format.js { render layout: false}
+		end
 	end	
 
 end
