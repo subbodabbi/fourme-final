@@ -1,3 +1,4 @@
 $('.downvote').bind('ajax:success', function(){
-   $(this).parent().parent().find('.vote_count').html('<%= @project.get_downvotes.size %>');
+   $(this).parent().parent().find('.upbadge').html('<%= @project.get_upvotes.size %>');	
+   $(this).parent().parent().find('.downbadge').html('<%= @project.get_downvotes.size %>');
 });
