@@ -1,11 +1,156 @@
-<%@developer.each do |x| %>
-<div class="bla" style="background: url(/1.jpg) 50% 0 repeat fixed;">
-	<div class="story">
-		<div class="float-left">
-		<%= x.name%>
-		</div>
-		</div>
-		</div>
-		<%end%>
+<!-- NAV BAR  -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:3000/"><img src="/Logo/logo1.png"/></a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+<!--         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li> -->
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li> -->
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_user != nil %>
+          <li><a href="#">Log in as: <%= current_user.email %></a></li>
+        <% end %>
+        <li><%= link_to "sign_out", sign_out_path, method: :delete %></li>
+       
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!-- end of navbar -->
 
+<% a = 0 %>
+<%@developer.each_with_index do |x, indx| %>
+	<% if a == 0 %>
+		<% if indx.even? %>
+			<div class="bla" style="background: url(/1.jpg) 50% 0 repeat fixed;">
+				<div class="story">
+					<div class="float-left">
+						<table class="table-box-developer" style="width:100%;">
+						<tr>
+							<td class="td-name"><h1><%= x.name %></h1></td>
+							<td></td>
+							<td class="td-avatar"><img src="<%= x.avatar %>" style="border-radius: 20px; width: 120px; height: 120px;"></td>
+						</tr>
+						</table>
+						<br>
+						<h3>"<%= x.motto %>"</h3>
+						<br>
+						<h5>Skills: </h5>
+						<% x.skills.each do |y| %>
+							<%= y%>
+							<br>
+						<%end%>
+						<br>
+						<div class="description" style="display: none;"><h5>Portfolio: </h5><%=x.description%><br><a href="" class="join">Invite this person to my project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
+	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
+	       				  <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
+	       				  <span class="upbadge"><%= x.get_upvotes.size %></span>
+	     				  </button>
+	     			  <% end %>  
+						  <%= link_to dislike_project_path(x), class: "downvote", method: 'get', remote: true do %>
+	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-thumbs-down glyphicon-align-center" aria-hidden="true"></span>
+								  <span class="downbadge"><%= x.get_downvotes.size %></span>
+							  </button>
+	   				  <% end %></div>
+						<a href="" class="show_more_btn">Show more >></a>
+					</div>
+				</div>
+			</div>
+			<% indx+=1 %>
+			<% if indx == @developer.size %>
+				<div class="bla" style="background: url(/1.jpg) 50% 0 repeat;">
+			<% end %>
+		<% else %>
+			<div class="bla1" style="background: url(/2.jpg) 50% 0 repeat fixed;">
+				<div class="story">
+					<div class="float-right">
+						<table class="table-box-developer" style="width:100%;">
+						<tr>
+							<td class="td-name"><h1><%= x.name %></h1></td>
+							<td></td>
+							<td class="td-avatar"><img src="<%= x.avatar %>" style="border-radius: 20px; width: 120px; height: 120px;"></td>
+						</tr>
+						</table>
+						<br>
+						<h3>"<%= x.motto %>"</h3>
+						<br>
+						<h5>Skills: </h5>
+						<% x.skills.each do |y| %>
+							<%= y%>
+							<br>
+						<%end%>
+						<br>
+						<div class="description" style="display: none;"><h5>Portfolio: </h5><%=x.description%><br><a href="" class="join">Invite this person to my project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
+	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
+	       				  <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
+	       				  <span class="upbadge"><%= x.get_upvotes.size %></span>
+	     				  </button>
+	     			  <% end %> 
+						  <%= link_to dislike_project_path(x), class: "downvote", method: 'get', remote: true do %>
+	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-thumbs-down glyphicon-align-center" aria-hidden="true"></span>
+								  <span class="downbadge"><%= x.get_downvotes.size %></span>
+							  </button> <% end %>
+							  </div>  
+						<a href="" class="show_more_btn">Show more >></a>
+					</div>
+				</div>
+			</div>
+			<% indx+=1 %>
+			<% if indx == @developer.size %>
+				<div class="bla" style="background: url(/1.jpg) 50% 0 repeat;">
+			<% end %>
+				
+		<% end %>		
+	<% end %>	
+<% end %>
+
+<script type="text/javascript">
+	$('.show_more_btn').click(function(event){
+		event.preventDefault();
+		$(this).prev().show();
+		$(this).hide();
+	})
+	$('.hide_desrcipt').click(function(event){
+		event.preventDefault();
+		$(this).parent().next().show();
+		$(this).parent().hide();
+	})
+	
+
+</script>
 
