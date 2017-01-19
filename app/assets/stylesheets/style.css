@@ -190,11 +190,16 @@ body{
 #new_proj_title {
 	min-width: 60%;
 }
+
 #new_proj_descr {
 	height: 100px;
 	min-width: 60%;
 }
 
-
+#new_avatar_form form{
+	vertical-align: center;
+	text-align: center;
+	display: inline-block;
+}
 
 
