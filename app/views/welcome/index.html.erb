@@ -438,9 +438,11 @@
 <header id="top" class="header">
     <div class="text-vertical-center">
       <div class="logo">
-        <img src="/Logo/logo.png" style="height: 150px;"/><br><br><br>
-        <img src="/Logo/logo_desc.png"/><br><br>
-        <img src="/Logo/logo_exp.png"/>
+        <%= image_tag "/Logo/logo.png", style: "height: 150px;" %><br><br>
+        <!-- <img src="/Logo/logo.png" style="height: 150px;"/><br><br><br> -->
+        <%= image_tag "/Logo/logo_desc.png" %><br><br>
+        <%= image_tag "/Logo/logo_exp.png" %>
+
       </div>
         <%= link_to "Discover New Teams", developers_url, class: "btn btn-dark btn-lg"%>
         <div class="divider"></div>
