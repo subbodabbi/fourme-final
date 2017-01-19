@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
     if @user.save
       sign_in @user
-      UserMailer.welcome_email(@user).deliver_now
+      # UserMailer.welcome_email(@user).deliver_now
      	redirect_to root_path
     else
       redirect_to root_path
