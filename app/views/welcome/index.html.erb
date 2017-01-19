@@ -14,22 +14,6 @@
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-<!--         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li> -->
-        <!-- <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li> -->
-      </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -40,7 +24,6 @@
         <% if current_user != nil %>
           <li><a href="#">Log in as: <%= current_user.email %></a></li>
         <% end %>
-        <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu" >
@@ -58,7 +41,7 @@
             <script type="text/javascript"> function modal4(){$('#myModal4').modal('toggle')}</script>
             <li><a href="javascript:modal4()" id="projlistshow">your projects</a></li>
             <li role="separator" class="divider"></li>
-            <li><%= link_to "sign_out", sign_out_path, method: :delete %></li>
+            <li><%= link_to "sign out", sign_out_path, method: :delete %></li>
             <% end%>
           </ul>
         </li>
@@ -83,7 +66,7 @@
  
  <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" id="youprofile1">
+      <div class="modal-content" id="youprofile1" style="padding: 3.5%">
  
      <% if signed_out? %>
           <% else %>
@@ -249,7 +232,7 @@
       <div class="modal-content">
       <div id="projlist"><h3>Your Projects</h3></div>
       <div style="height: 2px; width: 200px; border: 1.5px solid grey; margin-left: 35%"></div>
-      <div id="projlist_u"><h3>Projects where you are</h3></div>
+      <div id="projlist_u" style="text-align: center"><h3>Your current collaboration projects</h3></div>
       <a href="" id="new_proj"><br><h5>add new project</h5></a>
       <script type="text/javascript">
       function leaveProj(a){
