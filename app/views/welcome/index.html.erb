@@ -244,7 +244,23 @@
               }).done(function(){
                 $('#projlistshow').trigger('click');
               })
-            }
+      }
+      function showDev(a){
+        var arr1 = []
+        $.ajax({
+          method: 'get',
+          url: '/show3',
+          async: false,
+          data: {'id': a}
+        }).done(function(response){
+          c = response;
+          arr1.push(c);
+          
+        });
+        var b = arr1[0]
+        return b
+        
+      }
         $('#projlistshow').click(function(event){
           $('#new_proj_div').remove();
           $('#projlist2').remove();
@@ -258,7 +274,6 @@
           }).done(function(response){
             
             a6 = response
-            console.log(a6)
             $('#projlist_u').append('<div id="projlist_u1"><br></div>')
             for (var q = 0; q < a6.length; q++){
               $('#projlist_u1').append('<a href="" bla1="'+a6[q].id+'" bla="'+q+'"class="view_proj1">'+a6[q].title+'</a><a href="javascript:leaveProj('+a6[q].id+')" bla="'+a6[q].id+'"> | leave this project</a><br>');
@@ -310,6 +325,13 @@
                   for (var v = 0; v < a4.languages_required.length; v++){$('#projlist2').append(a4.languages_required[v]+'<a href="" class="delete_lang" id="'+a4.languages_required[v]+'"> | delete </a><br>');}
 
                   $('#projlist2').append('<input type="text" placeholder="add some languages" id="new_lang"><a href="" id="add_more_lang"> add </a><br><br>');
+                  
+                  $('#projlist2').append('<div id="developers1"><h3>Developers in you project:</h3><br></div>'); 
+                  for (var z = 0; z<a4.developers_id.length; z++){
+                    var r = showDev(a4.developers_id[z]);
+              
+                    $('#projlist2').append('<a href="javascript:modal5('+r.id+','+a4.id+')">'+r.name+'</a><br>');
+                  }
                   $('#projlist2').append('<a href="" id="proj_back"> back </a>');
                   $('#proj_back').click(function(event){
                     event.preventDefault();
@@ -433,6 +455,44 @@
       </div>
     </div>
 </div>
+
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div id="user_prof">
+       <script type="text/javascript"> 
+       function delete_dev_from_proj(a,b){
+        $.ajax({
+          method: 'get',
+          url: '/add_dev_leave1',
+          data: {'project_id': a, 'developer_id': b}
+        }).done(function(){
+          $('#projlistshow').trigger('click');
+          $('#myModal5').modal('hide');
+        })
+       }
+       function modal5(a,b){
+        $('#myModal5').modal('toggle');
+        $('#user_prof1').remove();
+        $.ajax({
+          method: 'get',
+          url: '/show3',
+          data: {'id': a}
+        }).done(function(response){
+          a7 = response;
+          $('#user_prof').append('<div id="user_prof1"></div>');
+          $('#user_prof1').append('<img src="'+a7.avatar.url+'" style="width: 100px; height: 100px; border-radius: 100px;"><br>');
+          $('#user_prof1').append('Name: <br>'+a7.name+'<br>Description:<br>'+a7.description+'<br> Motto: <br>'+a7.motto+'<br>');
+          $('#user_prof1').append('Skills: <br>');
+          for (var e = 0; e<a7.skills.length; e++){ $('#user_prof1').append(a7.skills[e]+'<br>');}
+          $('#user_prof1').append('<a href="javascript:delete_dev_from_proj('+b+','+a7.id+')"> Delete this person from you project</a>');
+        })
+       }
+       </script>
+       </div>
+      </div>
+    </div>
+  </div>
 <!-- end of dveloper -->
 
 <header id="top" class="header">
