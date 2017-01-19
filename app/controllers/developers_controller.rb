@@ -43,6 +43,11 @@ class DevelopersController < ApplicationController
     redirect_to root_path, flash: {notice: "bla"}
   end
 
+  def show3
+    a = Developer.find(params['id'])
+    render :json => a
+  end
+
   def update
     if params.first[0] == 'skills'
       a = Developer.find(params['id'])

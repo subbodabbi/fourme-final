@@ -68,15 +68,14 @@
 						<br>
 						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br>
 						<% n = 0 %>
-						<% x.developers_id.each do |y| %>
-							<% if y[0] == current_user[:id] %>
-								<% n = 1 %>
-							<% end %>
-						<% end %>
-						<% if n == 1 %>
+						<% c = Developer.find_by(users_id: current_user[:id]) %>
+						<% if c %>
+						<% if x.developers_id.include?(c.id) %>
 							<a href="javascript:click1(<%=x.id%>)" class="leave" id='<%=x.id%>'>Leave this project</a>
 						<% else %>
 							<a href="javascript:click2(<%=x.id%>)" class="join" id1='<%=x.id%>'>Join this project</a>
+						<% end %>
+						<% else %>
 						<% end %>
 						<a href="" class="hide_desrcipt"> | Hide this</a>
 						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
@@ -113,17 +112,15 @@
 						<br>
 						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br>
 						<% n = 0 %>
-						<% x.developers_id.each do |y| %>
-							<% if y[0] == current_user[:id] %>
-								<% n = 1 %>
-							<% end %>
-						<% end %>
-						<% if n == 1 %>
+						<% c = Developer.find_by(users_id: current_user[:id]) %>
+						<% if c %>
+						<% if x.developers_id.include?(c.id) %>
 							<a href="javascript:click1(<%=x.id%>)" class="leave" id='<%=x.id%>'>Leave this project</a>
 						<% else %>
 							<a href="javascript:click2(<%=x.id%>)" class="join" id1='<%=x.id%>'>Join this project</a>
 						<% end %>
-
+						<% else %>
+						<% end %>
 						<a href="" class="hide_desrcipt"> | Hide this</a>
 						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
 	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
