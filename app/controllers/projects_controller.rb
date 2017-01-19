@@ -8,8 +8,64 @@ class ProjectsController < ApplicationController
 		end
 	end
 
+	def list2
+		arr = []
+		a = Project.where('user_id != ?', current_user[:id]) 
+		if a.length > 0
+			a.each do |x|
+				x.developers_id.each do |y|
+					if y[0] == current_user[:id]
+						arr << x
+					end
+				end
+			end
+			render :json => arr
+		else
+			render :json => ["no"]
+		end
+	end
+
 	def index
     	@project = Project.where.not(user_id: current_user[:id])
+  	end
+
+  	def add_dev
+  		b = 0
+  		a = Project.find(params['project_id'])
+  		a.developers_id.each do |x|
+  			if x[0] == current_user[:id]
+  				x[1] = 1
+  				b = 1
+  			else 
+  			end
+  		end
+  		if b == 0
+  			a.developers_id << [current_user[:id], 1]
+  		end
+  		if a.save
+  			render :json => [a.id]
+  		else
+  			render :json => [a.id]
+  		end
+  	end
+
+  	def add_dev_leave
+
+  		a = Project.find(params['project_id'])
+  		
+  		arr = a.developers_id
+  		arr.map! do |x|
+  			if x[0].to_i == current_user[:id].to_i
+  				x = nil
+  			end
+  		end
+  		arr.compact!
+  		a.developers_id = arr
+  		if a.save
+  			render :json => [a.id]
+  		else
+  			render :json => [a.id]
+  		end
   	end
 
 	def create

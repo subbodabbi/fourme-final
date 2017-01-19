@@ -66,7 +66,19 @@
 						<br>
 						<%end%>
 						<br>
-						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br>
+						<% n = 0 %>
+						<% x.developers_id.each do |y| %>
+							<% if y[0] == current_user[:id] %>
+								<% n = 1 %>
+							<% end %>
+						<% end %>
+						<% if n == 1 %>
+							<a href="javascript:click1(<%=x.id%>)" class="leave" id='<%=x.id%>'>Leave this project</a>
+						<% else %>
+							<a href="javascript:click2(<%=x.id%>)" class="join" id1='<%=x.id%>'>Join this project</a>
+						<% end %>
+						<a href="" class="hide_desrcipt"> | Hide this</a>
 						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
 	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
 	       				  <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
@@ -99,7 +111,20 @@
 						<br>
 						<%end%>
 						<br>
-						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br><a href="" class="join">Join this project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						<div class="description" style="display: none;"><h5>Description: </h5><%=x.description%><br>
+						<% n = 0 %>
+						<% x.developers_id.each do |y| %>
+							<% if y[0] == current_user[:id] %>
+								<% n = 1 %>
+							<% end %>
+						<% end %>
+						<% if n == 1 %>
+							<a href="javascript:click1(<%=x.id%>)" class="leave" id='<%=x.id%>'>Leave this project</a>
+						<% else %>
+							<a href="javascript:click2(<%=x.id%>)" class="join" id1='<%=x.id%>'>Join this project</a>
+						<% end %>
+
+						<a href="" class="hide_desrcipt"> | Hide this</a>
 						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
 	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
 	       				  <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
@@ -136,7 +161,28 @@
 		$(this).parent().next().show();
 		$(this).parent().hide();
 	})
-	
+	function click2(x){
+		$.ajax({
+			method: 'get',
+			url: '/add_dev',
+			data: {'project_id': x}
+		}).done(function(response){
+			a = response[0];
+			$('a[id1 = '+a+']').before('<a href="javascript:click1('+a+')" class="leave" id='+a+'>Leave this project</a>');
+			$('a[id1 = '+a+']').remove();
+		})
+	}
+	function click1(x){
+		$.ajax({
+			method: 'get',
+			url: '/add_dev_leave',
+			data: {'project_id': x}
+		}).done(function(response){
+			a1 = response[0];
+			$('a[id = '+a1+']').before('<a href="javascript:click2('+a1+')" class="join" id1='+a1+'>Join this project</a>');
+			$('a[id = '+a1+']').remove();
+		});
+	}
 
 </script>
 

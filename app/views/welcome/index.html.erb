@@ -113,7 +113,6 @@
           url: '/developers/'+$('#developer_id').text(),
         }).done(function(response){
           a2 = response;
-          console.log(a2);
           $('.cont').remove();
           $('#youprofile_delete').before('<div class="cont"></div>');
           $('.cont').append('<div id="you_avatar"><img src="'+a2.avatar.url+'" style="border-radius: 100px; width: 100px; heidht: 100px;"><a href="" id="editavat"> edit</a></div>');
@@ -248,14 +247,52 @@
  <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-      <div id="projlist"><h3>Your Project</h3></div>
+      <div id="projlist"><h3>Your Projects</h3></div>
+      <div style="height: 2px; width: 200px; border: 1.5px solid grey; margin-left: 35%"></div>
+      <div id="projlist_u"><h3>Projects where you are</h3></div>
       <a href="" id="new_proj"><br><h5>add new project</h5></a>
       <script type="text/javascript">
+      function leaveProj(a){
+              $.ajax({
+                method: "get",
+                url: '/add_dev_leave',
+                data: {'project_id': a}
+              }).done(function(){
+                setTimeout("$('#projlistshow').trigger('click')", 100);
+              })
+            }
         $('#projlistshow').click(function(event){
           $('#new_proj_div').remove();
           $('#projlist2').remove();
           $('#projlist1').remove();
           $('#new_proj').show();
+          $.ajax({
+            method: 'get',
+            url: '/list2',
+          }).done(function(response){
+            
+            a6 = response
+            console.log(a6)
+            $('#projlist_u').append('<div id="projlist_u1"><br></div>')
+            for (var q = 0; q < a6.length; q++){
+              $('#projlist_u1').append('<a href="" bla1="'+a6[q].id+'" bla="'+q+'"class="view_proj1">'+a6[q].title+'</a><a href="javascript:leaveProj('+a6[q].id+')" bla="'+a6[q].id+'"> | leave this project</a><br>');
+            }
+            $('.view_proj1').click(function(event){
+              event.preventDefault();
+              $('#projlist').hide();
+              $('#projlist_u').hide();
+              $('#new_proj').hide();
+              $('#projlist').before('<div id="show_proj"> Title: <br>'+a6[$(this).attr('bla')].title+'<br> Description: <br> '+a6[$(this).attr('bla')].description+'<br> Languages:<br>'+a6[$(this).attr('bla')].languages_required.join(', ')+'<br><a href="javascript:leaveProj('+a6[$(this).attr('bla')].id+')" > leave project</a><a href="" id="show_proj_back"> | back </a></div>');
+              $('#show_proj_back').click(function(event){
+                event.preventDefault();
+                $('#projlist').show();
+                $('#projlist_u').show();
+                $('#new_proj').show();
+                $('#show_proj').remove();
+              })
+
+            })
+          })
           $.ajax({
             method: 'get',
             url: '/list',
