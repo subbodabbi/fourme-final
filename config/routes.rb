@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get '/add_dev_leave' => 'projects#add_dev_leave'
   get '/show3' => 'developers#show3'
   get '/add_dev_leave1' => 'projects#add_dev_leave1'
+  get "/add_dev1" => 'projects#add_dev1'
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

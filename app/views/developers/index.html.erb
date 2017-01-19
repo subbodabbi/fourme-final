@@ -56,7 +56,11 @@
 							<br>
 						<%end%>
 						<br>
-						<div class="description" style="display: none;"><h5>Portfolio: </h5><%=x.description%><br><a href="" class="join">Invite this person to my project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						<div class="description" style="display: none;"><h5>Portfolio: </h5><%=x.description%><br>
+
+						<a href="javascript:min_proj_list(<%=x.id%>)" bla='<%=x.id%>' class="join">Invite this person to my project</a>
+
+						<a href="" class="hide_desrcipt"> | Hide this</a>
 						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
 	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
 	       				  <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
@@ -97,7 +101,11 @@
 							<br>
 						<%end%>
 						<br>
-						<div class="description" style="display: none;"><h5>Portfolio: </h5><%=x.description%><br><a href="" class="join">Invite this person to my project</a><a href="" class="hide_desrcipt"> | Hide this</a>
+						<div class="description" style="display: none;"><h5>Portfolio: </h5><%=x.description%><br>
+
+						<a href="javascript:min_proj_list(<%=x.id%>)" class="join" bla='<%=x.id%>'>Invite this person to my project</a>
+
+						<a href="" class="hide_desrcipt"> | Hide this</a>
 						  <%= link_to like_project_path(x), class: "upvote", method: 'get', remote: true do %>
 	     				  <button type="button" class="btn btn-info" aria-label="Left Align">
 	       				  <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
@@ -134,6 +142,36 @@
 		$(this).parent().next().show();
 		$(this).parent().hide();
 	})
+	function min_proj_list(a){
+		$('a[bla = '+a+']').hide();
+		$.ajax({
+			method: 'get',
+			url: '/list'
+		}).done(function(response){
+			a8 = response;
+			for (var q = 0; q < a8.length; q++){
+				if (jQuery.inArray(a, a8[q].developers_id) > 0){} else {
+					$('a[bla = '+a+']').after('<a href="javascript:add_dev_to_proj('+a8[q].id+','+a+')" class="brr1" id2="'+a8[q].id+'"> --'+a8[q].title+'</a>');
+				}
+			}
+		})
+		$('a[bla = '+a+']').after('<a href="" id="brr_back"> | back </a>');
+		$('#brr_back').click(function(event){
+			event.preventDefault();
+			$('.brr1').remove();
+			$('#brr_back').remove();
+			$('a[bla = '+a+']').show();
+		})
+	}
+	function add_dev_to_proj(a,b){
+		$.ajax({
+			method: 'get',
+			url: '/add_dev1',
+			data: {'project_id': a, 'developer_id': b}
+		}).done(function(response){
+			$('a[id2 = '+a+']').remove();
+		})
+	}
 	
 
 </script>
