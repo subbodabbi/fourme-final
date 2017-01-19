@@ -4,9 +4,9 @@ class Clearance::SessionsController < Clearance::BaseController
 
     sign_in(@user) do |status|
       if status.success?
-        redirect_to '/welcome#index'
+        redirect_to root_path
       else
-        redirect_to '/welcome#index'
+        redirect_to root_path
       end
     end
   end
