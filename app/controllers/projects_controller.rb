@@ -14,10 +14,8 @@ class ProjectsController < ApplicationController
 		c = Developer.find_by(users_id: current_user[:id])
 		if a.length > 0
 			a.each do |x|
-				x.developers_id.each do |y|
-					if y[0] == c.id
-						arr << x
-					end
+				if x.developers_id.include?(c.id)
+					arr << x
 				end
 			end
 			render :json => arr
@@ -31,11 +29,25 @@ class ProjectsController < ApplicationController
   	end
 
   	def add_dev
-  		b = 0
   		a = Project.find(params['project_id'])
   		c = Developer.find_by(users_id: current_user[:id])
   		if a.developers_id.include?(c.id)
   			render :json => 'olready here'
+  		else
+  			a.developers_id << c.id
+  			if a.save
+  				render :json => [a.id]
+  			else
+  				render :json => [a.id]
+  			end
+  		end
+  	end
+
+  	def add_dev1
+  		a = Project.find(params['project_id'])
+  		c = Developer.find(params['developer_id'])
+  		if a.developers_id.include?(c.id)
+  			render :json => 'already here'
   		else
   			a.developers_id << c.id
   			if a.save
