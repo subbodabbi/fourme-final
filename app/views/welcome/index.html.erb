@@ -253,18 +253,21 @@
       <a href="" id="new_proj"><br><h5>add new project</h5></a>
       <script type="text/javascript">
       function leaveProj(a){
+        $('#show_proj_back').trigger('click');
               $.ajax({
                 method: "get",
                 url: '/add_dev_leave',
                 data: {'project_id': a}
               }).done(function(){
-                setTimeout("$('#projlistshow').trigger('click')", 100);
+                $('#projlistshow').trigger('click');
               })
             }
         $('#projlistshow').click(function(event){
           $('#new_proj_div').remove();
           $('#projlist2').remove();
           $('#projlist1').remove();
+          $('#show_proj').remove();
+          $('#projlist_u1').remove();
           $('#new_proj').show();
           $.ajax({
             method: 'get',
