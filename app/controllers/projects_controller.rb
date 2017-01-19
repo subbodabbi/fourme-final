@@ -11,10 +11,11 @@ class ProjectsController < ApplicationController
 	def list2
 		arr = []
 		a = Project.where('user_id != ?', current_user[:id]) 
+		c = Developer.find_by(users_id: current_user[:id])
 		if a.length > 0
 			a.each do |x|
 				x.developers_id.each do |y|
-					if y[0] == current_user[:id]
+					if y[0] == c.id
 						arr << x
 					end
 				end
@@ -32,39 +33,47 @@ class ProjectsController < ApplicationController
   	def add_dev
   		b = 0
   		a = Project.find(params['project_id'])
-  		a.developers_id.each do |x|
-  			if x[0] == current_user[:id]
-  				x[1] = 1
-  				b = 1
-  			else 
-  			end
-  		end
-  		if b == 0
-  			a.developers_id << [current_user[:id], 1]
-  		end
-  		if a.save
-  			render :json => [a.id]
+  		c = Developer.find_by(users_id: current_user[:id])
+  		if a.developers_id.include?(c.id)
+  			render :json => 'olready here'
   		else
-  			render :json => [a.id]
+  			a.developers_id << c.id
+  			if a.save
+  				render :json => [a.id]
+  			else
+  				render :json => [a.id]
+  			end
   		end
   	end
 
   	def add_dev_leave
 
   		a = Project.find(params['project_id'])
-  		
-  		arr = a.developers_id
-  		arr.map! do |x|
-  			if x[0].to_i == current_user[:id].to_i
-  				x = nil
+  		c = Developer.find_by(users_id: current_user[:id])
+  		if a.developers_id.include?(c.id)
+  			a.developers_id.delete(c.id)
+  			if a.save
+  				render :json => [a.id]
+  			else
+  				render :json => [a.id]
   			end
-  		end
-  		arr.compact!
-  		a.developers_id = arr
-  		if a.save
-  			render :json => [a.id]
   		else
-  			render :json => [a.id]
+  			render :json => "this developer not here"
+  		end
+  	end
+
+  	def add_dev_leave1
+  		a = Project.find(params['project_id'])
+  		c = Developer.find(params['developer_id'])
+  		if a.developers_id.include?(c.id)
+  			a.developers_id.delete(c.id)
+  			if a.save
+  				render :json => [a.id]
+  			else
+  				render :json => [a.id]
+  			end
+  		else
+  			render :json => "this developer not here"
   		end
   	end
 
